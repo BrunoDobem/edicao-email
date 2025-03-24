@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Editor de Email</title>
+    <link rel="stylesheet" href="../static/css/editor.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Editor de Email</h1>
+            <div class="actions">
+                <button id="salvar">Salvar Alterações</button>
+                <button id="preview">Visualizar Preview</button>
+                <button id="codigo">Ver Código</button>
+            </div>
+        </header>
+
+        <main>
+            <div class="editor-panel">
+                <form id="editorForm">
+                    <div class="form-group">
+                        <h2>Configurações Gerais</h2>
+                        <label for="preview_text">Texto de Preview</label>
+                        <input type="text" id="preview_text" name="preview_text">
+                        
+                        <label for="logo_url">URL do Logo</label>
+                        <input type="text" id="logo_url" name="logo_url">
+                        
+                        <label for="logo_alt">Texto Alternativo do Logo</label>
+                        <input type="text" id="logo_alt" name="logo_alt">
+                        
+                        <label for="imagem_topo_url">URL da Imagem do Topo</label>
+                        <input type="text" id="imagem_topo_url" name="imagem_topo_url">
+                        
+                        <label for="imagem_topo_alt">Texto Alternativo da Imagem do Topo</label>
+                        <input type="text" id="imagem_topo_alt" name="imagem_topo_alt">
+                        
+                        <label for="subtitulo">Subtítulo</label>
+                        <input type="text" id="subtitulo" name="subtitulo">
+                        
+                        <label for="titulo_principal">Título Principal</label>
+                        <input type="text" id="titulo_principal" name="titulo_principal">
+                    </div>
+
+                    <div class="form-group">
+                        <h2>Destino 1</h2>
+                        <label for="destino1.imagem_url">URL da Imagem</label>
+                        <input type="text" id="destino1.imagem_url" name="destino1.imagem_url">
+                        
+                        <label for="destino1.imagem_alt">Texto Alternativo da Imagem</label>
+                        <input type="text" id="destino1.imagem_alt" name="destino1.imagem_alt">
+                        
+                        <label for="destino1.titulo">Título</label>
+                        <input type="text" id="destino1.titulo" name="destino1.titulo">
+                        
+                        <label for="destino1.preco">Preço</label>
+                        <input type="text" id="destino1.preco" name="destino1.preco">
+                        
+                        <label for="destino1.dias">Dias</label>
+                        <input type="text" id="destino1.dias" name="destino1.dias">
+                        
+                        <label for="destino1.descricao">Descrição</label>
+                        <textarea id="destino1.descricao" name="destino1.descricao"></textarea>
+                        
+                        <label for="destino1.link">Link</label>
+                        <input type="text" id="destino1.link" name="destino1.link">
+                    </div>
+
+                    <div class="form-group">
+                        <h2>Destino 2</h2>
+                        <label for="destino2.imagem_url">URL da Imagem</label>
+                        <input type="text" id="destino2.imagem_url" name="destino2.imagem_url">
+                        
+                        <label for="destino2.imagem_alt">Texto Alternativo da Imagem</label>
+                        <input type="text" id="destino2.imagem_alt" name="destino2.imagem_alt">
+                        
+                        <label for="destino2.titulo">Título</label>
+                        <input type="text" id="destino2.titulo" name="destino2.titulo">
+                        
+                        <label for="destino2.preco">Preço</label>
+                        <input type="text" id="destino2.preco" name="destino2.preco">
+                        
+                        <label for="destino2.dias">Dias</label>
+                        <input type="text" id="destino2.dias" name="destino2.dias">
+                        
+                        <label for="destino2.descricao">Descrição</label>
+                        <textarea id="destino2.descricao" name="destino2.descricao"></textarea>
+                        
+                        <label for="destino2.link">Link</label>
+                        <input type="text" id="destino2.link" name="destino2.link">
+                    </div>
+
+                    <div class="form-group">
+                        <h2>Destino 3</h2>
+                        <label for="destino3.imagem_url">URL da Imagem</label>
+                        <input type="text" id="destino3.imagem_url" name="destino3.imagem_url">
+                        
+                        <label for="destino3.imagem_alt">Texto Alternativo da Imagem</label>
+                        <input type="text" id="destino3.imagem_alt" name="destino3.imagem_alt">
+                        
+                        <label for="destino3.titulo">Título</label>
+                        <input type="text" id="destino3.titulo" name="destino3.titulo">
+                        
+                        <label for="destino3.preco">Preço</label>
+                        <input type="text" id="destino3.preco" name="destino3.preco">
+                        
+                        <label for="destino3.dias">Dias</label>
+                        <input type="text" id="destino3.dias" name="destino3.dias">
+                        
+                        <label for="destino3.descricao">Descrição</label>
+                        <textarea id="destino3.descricao" name="destino3.descricao"></textarea>
+                        
+                        <label for="destino3.link">Link</label>
+                        <input type="text" id="destino3.link" name="destino3.link">
+                    </div>
+
+                    <div class="form-group">
+                        <h2>Destino 4</h2>
+                        <label for="destino4.imagem_url">URL da Imagem</label>
+                        <input type="text" id="destino4.imagem_url" name="destino4.imagem_url">
+                        
+                        <label for="destino4.imagem_alt">Texto Alternativo da Imagem</label>
+                        <input type="text" id="destino4.imagem_alt" name="destino4.imagem_alt">
+                        
+                        <label for="destino4.titulo">Título</label>
+                        <input type="text" id="destino4.titulo" name="destino4.titulo">
+                        
+                        <label for="destino4.preco">Preço</label>
+                        <input type="text" id="destino4.preco" name="destino4.preco">
+                        
+                        <label for="destino4.dias">Dias</label>
+                        <input type="text" id="destino4.dias" name="destino4.dias">
+                        
+                        <label for="destino4.descricao">Descrição</label>
+                        <textarea id="destino4.descricao" name="destino4.descricao"></textarea>
+                        
+                        <label for="destino4.link">Link</label>
+                        <input type="text" id="destino4.link" name="destino4.link">
+                    </div>
+                </form>
+            </div>
+
+            <div class="preview-panel">
+                <div class="preview-header">
+                    <h2>Preview</h2>
+                    <button id="copiarCodigo" class="copy-button" style="display: none;">
+                        <span class="button-text">Copiar Código</span>
+                        <span class="button-icon">📋</span>
+                    </button>
+                </div>
+                <div id="previewContainer">
+                    <iframe id="previewFrame"></iframe>
+                </div>
+                <div id="codigoContainer" style="display: none;">
+                    <pre><code id="codigoHTML"></code></pre>
+                </div>
+                <div id="copiadoMensagem" class="mensagem-copiado">Código copiado!</div>
+            </div>
+        </main>
+    </div>
+    <script src="../static/js/editor.js"></script>
+</body>
+</html> 
