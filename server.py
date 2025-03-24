@@ -169,5 +169,9 @@ def serve_static(filename):
     """Serve arquivos estáticos."""
     return send_from_directory('static', filename)
 
+# Para funcionar tanto localmente quanto na Vercel
 if __name__ == '__main__':
-    app.run(debug=True) 
+    app.run(debug=True)
+    
+# Esta linha é necessária para o Vercel
+app = app 

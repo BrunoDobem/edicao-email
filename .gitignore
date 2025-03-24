@@ -1,0 +1,32 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Ambientes virtuais
+venv/
+env/
+.env
+
+# Arquivos de cache
+.cache/
+.pytest_cache/
+.coverage
+
+# Logs
+*.log
+
+# Dependências e arquivos gerados
+node_modules/
+*.so
+.Python
+
+# Arquivos específicos da IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Arquivos específicos do sistema
+.DS_Store
+Thumbs.db 
