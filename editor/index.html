@@ -19,6 +19,33 @@
 
         <main>
             <div class="editor-panel">
+                <div class="template-selector">
+                    <h2>Selecionar Template</h2>
+                    <select id="templateSelect">
+                        <option value="">Carregando templates...</option>
+                    </select>
+                    <button id="addTemplateBtn" class="secondary-button">Adicionar Novo Template</button>
+                </div>
+
+                <div id="addTemplateForm" style="display: none;">
+                    <h2>Adicionar Novo Template</h2>
+                    <div class="form-group">
+                        <label for="templateName">Nome do Template</label>
+                        <input type="text" id="templateName" name="templateName" required>
+                        
+                        <label for="templateDescription">Descrição</label>
+                        <textarea id="templateDescription" name="templateDescription"></textarea>
+                        
+                        <label for="templateCode">Código HTML do Template</label>
+                        <textarea id="templateCode" name="templateCode" rows="20" required></textarea>
+                        
+                        <div class="form-actions">
+                            <button type="button" id="saveTemplateBtn" class="primary-button">Salvar Template</button>
+                            <button type="button" id="cancelTemplateBtn" class="secondary-button">Cancelar</button>
+                        </div>
+                    </div>
+                </div>
+
                 <form id="editorForm">
                     <div class="form-group">
                         <h2>Configurações Gerais</h2>

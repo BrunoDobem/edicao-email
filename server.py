@@ -4,6 +4,7 @@ import os
 import re
 import traceback
 from jinja2 import Environment, FileSystemLoader
+import uuid
 
 app = Flask(__name__)
 
@@ -13,8 +14,49 @@ env = Environment(
     autoescape=True
 )
 
-# Caminho para o arquivo de variáveis
+# Caminhos para os arquivos de configuração
 VARIABLES_FILE = 'config/variables.json'
+TEMPLATES_FILE = 'config/templates.json'
+
+def carregar_templates():
+    """Carrega a configuração dos templates."""
+    if os.path.exists(TEMPLATES_FILE):
+        with open(TEMPLATES_FILE, 'r', encoding='utf-8') as f:
+            return json.load(f)
+    return {"templates": []}
+
+def salvar_templates(templates):
+    """Salva a configuração dos templates."""
+    os.makedirs(os.path.dirname(TEMPLATES_FILE), exist_ok=True)
+    with open(TEMPLATES_FILE, 'w', encoding='utf-8') as f:
+        json.dump(templates, f, ensure_ascii=False, indent=4)
+
+def detectar_variaveis(html):
+    """Detecta variáveis Jinja2 no template HTML."""
+    variaveis = {}
+    # Padrão para encontrar variáveis Jinja2
+    padrao = r'\{\{([^}]+)\}\}'
+    
+    # Encontra todas as variáveis no template
+    matches = re.finditer(padrao, html)
+    for match in matches:
+        var = match.group(1).strip()
+        # Ignora funções e filtros
+        if '(' in var or '|' in var:
+            continue
+            
+        # Processa variáveis aninhadas
+        partes = var.split('.')
+        atual = variaveis
+        for i, parte in enumerate(partes):
+            if i == len(partes) - 1:
+                atual[parte] = f"Descrição para {parte}"
+            else:
+                if parte not in atual:
+                    atual[parte] = {}
+                atual = atual[parte]
+    
+    return variaveis
 
 def carregar_variaveis():
     """Carrega as variáveis do arquivo JSON."""
@@ -72,6 +114,58 @@ def index():
     """Rota principal que renderiza a interface de edição."""
     return send_from_directory('editor', 'index.html')
 
+@app.route('/api/templates', methods=['GET'])
+def get_templates():
+    """Retorna a lista de templates disponíveis."""
+    try:
+        return jsonify(carregar_templates())
+    except Exception as e:
+        print(f"Erro ao carregar templates: {str(e)}")
+        traceback.print_exc()
+        return jsonify({'error': str(e)}), 500
+
+@app.route('/api/templates', methods=['POST'])
+def add_template():
+    """Adiciona um novo template."""
+    try:
+        dados = request.get_json()
+        if not dados or 'html' not in dados or 'name' not in dados:
+            return jsonify({'error': 'Dados incompletos'}), 400
+        
+        # Gera um ID único para o template
+        template_id = str(uuid.uuid4())
+        
+        # Detecta variáveis no template
+        variaveis = detectar_variaveis(dados['html'])
+        
+        # Cria o nome do arquivo
+        nome_arquivo = f"template_{template_id}.html"
+        
+        # Salva o arquivo do template
+        os.makedirs('templates', exist_ok=True)
+        with open(f'templates/{nome_arquivo}', 'w', encoding='utf-8') as f:
+            f.write(dados['html'])
+        
+        # Cria a configuração do template
+        novo_template = {
+            "id": template_id,
+            "name": dados['name'],
+            "description": dados.get('description', ''),
+            "file": nome_arquivo,
+            "variables": variaveis
+        }
+        
+        # Atualiza a lista de templates
+        templates = carregar_templates()
+        templates['templates'].append(novo_template)
+        salvar_templates(templates)
+        
+        return jsonify(novo_template)
+    except Exception as e:
+        print(f"Erro ao adicionar template: {str(e)}")
+        traceback.print_exc()
+        return jsonify({'error': str(e)}), 500
+
 @app.route('/api/variables', methods=['GET'])
 def get_variables():
     """Retorna as variáveis atuais."""
@@ -101,9 +195,17 @@ def save_variables():
 def preview():
     """Gera um preview do template com as variáveis fornecidas."""
     try:
-        variaveis = request.get_json()
-        if not variaveis:
-            return jsonify({'error': 'Dados não fornecidos'}), 400
+        dados = request.get_json()
+        if not dados or 'template_id' not in dados or 'variables' not in dados:
+            return jsonify({'error': 'Dados incompletos'}), 400
+        
+        # Carrega a configuração do template
+        templates = carregar_templates()
+        template = next((t for t in templates['templates'] if t['id'] == dados['template_id']), None)
+        if not template:
+            return jsonify({'error': 'Template não encontrado'}), 404
+        
+        variaveis = dados['variables']
         
         # Garantir que todas as variáveis necessárias existam
         variaveis_padrao = carregar_variaveis()
@@ -119,43 +221,11 @@ def preview():
                         variaveis[key][sub_key] = sub_value
                         print(f"Adicionando subvariável ausente: {key}.{sub_key}")
         
-        # Adicionar variável de título se não existir (para retrocompatibilidade)
-        if 'titulo' not in variaveis and 'titulo_principal' in variaveis:
-            variaveis['titulo'] = variaveis['titulo_principal']
-        
-        # Verificar especificamente o destino2
-        if 'destino2' in variaveis:
-            print("Dados do destino2:")
-            for k, v in variaveis['destino2'].items():
-                print(f"  {k}: {v}")
-        else:
-            print("destino2 não encontrado nas variáveis!")
-        
-        # Renderizar o template normalmente
-        template = env.get_template('base.html')
+        # Renderizar o template
+        template = env.get_template(template['file'])
         html = template.render(**variaveis)
         
-        # Verificar se o destino2.link está sendo renderizado corretamente
-        if "{{destino2.link}}" in html:
-            print("ERRO: destino2.link não foi renderizado!")
-        
-        # Processar manualmente os links dos destinos
-        for i in range(1, 5):
-            destino_key = f"destino{i}"
-            if destino_key in variaveis and 'link' in variaveis[destino_key]:
-                link_url = variaveis[destino_key]['link']
-                
-                # Verificar se o link ainda está no formato de template
-                template_pattern = f'href="{{{{destino{i}.link}}}}"'
-                if template_pattern in html:
-                    html = html.replace(template_pattern, f'href="{link_url}"')
-                    print(f"Substituição manual de template para {destino_key}")
-                
-                # Aplicar o TrackLink ao URL
-                html = html.replace(f'href="{link_url}"', f'href="{{{{TrackLink  "{link_url}"}}}}"')
-                print(f"TrackLink aplicado manualmente para {destino_key}")
-        
-        # Processar os links restantes para o formato TrackLink
+        # Processar os links para o formato TrackLink
         html_final = processar_tracklinks(html)
         
         return html_final
