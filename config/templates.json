@@ -1,0 +1,71 @@
+{
+    "templates": [
+        {
+            "id": "template-base",
+            "name": "Template Base",
+            "description": "Template padrão com 4 destinos",
+            "file": "base.html",
+            "variables": {
+                "preview_text": "Texto de preview do email",
+                "logo_url": "URL do logo",
+                "logo_alt": "Texto alternativo do logo",
+                "imagem_topo_url": "URL da imagem do topo",
+                "imagem_topo_alt": "Texto alternativo da imagem do topo",
+                "link_topo": "URL do link do topo",
+                "subtitulo": "Subtítulo do email",
+                "titulo_principal": "Título principal",
+                "titulo": "Título do email",
+                "destino1": {
+                    "imagem_url": "URL da imagem",
+                    "imagem_alt": "Texto alternativo da imagem",
+                    "titulo": "Título do destino",
+                    "preco": "Preço do pacote",
+                    "dias": "Duração em dias",
+                    "descricao": "Descrição do destino",
+                    "link": "Link do destino"
+                },
+                "destino2": {
+                    "imagem_url": "URL da imagem",
+                    "imagem_alt": "Texto alternativo da imagem",
+                    "titulo": "Título do destino",
+                    "preco": "Preço do pacote",
+                    "dias": "Duração em dias",
+                    "descricao": "Descrição do destino",
+                    "link": "Link do destino"
+                },
+                "destino3": {
+                    "imagem_url": "URL da imagem",
+                    "imagem_alt": "Texto alternativo da imagem",
+                    "titulo": "Título do destino",
+                    "preco": "Preço do pacote",
+                    "dias": "Duração em dias",
+                    "descricao": "Descrição do destino",
+                    "link": "Link do destino"
+                },
+                "destino4": {
+                    "imagem_url": "URL da imagem",
+                    "imagem_alt": "Texto alternativo da imagem",
+                    "titulo": "Título do destino",
+                    "preco": "Preço do pacote",
+                    "dias": "Duração em dias",
+                    "descricao": "Descrição do destino",
+                    "link": "Link do destino"
+                }
+            }
+        },
+        {
+            "id": "a5679aca-0f94-4758-b6a4-b545c42ff6a4",
+            "name": "Teste",
+            "description": "teste",
+            "file": "template_a5679aca-0f94-4758-b6a4-b545c42ff6a4.html",
+            "variables": {
+                "TrackLink \"https://www": {
+                    "hurb": {
+                        "com/br/packages/pacote-de-viagem-roma-paris-amsterdam-passagem-aerea-hospedagem/1590864?utm_source=email&utm_medium=listmonk&utm_campaign=semana_do_viajante_parcelado&cmp=737328\"": "Descrição para com/br/packages/pacote-de-viagem-roma-paris-amsterdam-passagem-aerea-hospedagem/1590864?utm_source=email&utm_medium=listmonk&utm_campaign=semana_do_viajante_parcelado&cmp=737328\"",
+                        "com/br/packages/pacote-de-viagem-atenas-santorini-passagem-aerea-hospedagem-transfer-entre-cidades/1595814?utm_source=email&utm_medium=listmonk&utm_campaign=semana_do_viajante_parcelado&cmp=737328\"": "Descrição para com/br/packages/pacote-de-viagem-atenas-santorini-passagem-aerea-hospedagem-transfer-entre-cidades/1595814?utm_source=email&utm_medium=listmonk&utm_campaign=semana_do_viajante_parcelado&cmp=737328\""
+                    }
+                }
+            }
+        }
+    ]
+}
