@@ -263,21 +263,34 @@ def update_config():
     save_config(config)
     return jsonify({'status': 'success'})
 
-@app.route('/api/templates/<template_name>/variables', methods=['GET'])
+@app.route('/api/templates/<template_name>/variables')
 def get_template_specific_variables(template_name):
     try:
-        print(f"Buscando variáveis para o template: {template_name}")
-        config = load_template_config()
+        # Carrega o arquivo de configuração das variáveis
+        with open('template_configs/template_variables.json', 'r', encoding='utf-8') as f:
+            config = json.load(f)
 
-        if template_name in config:
-            variables = config[template_name].get('variables', [])
-            print(f"Variáveis encontradas: {variables}")
-            return jsonify({'variables': variables})
-        else:
-            print(f"Template {template_name} não encontrado na configuração")
+        # Verifica se o template existe na configuração
+        if template_name not in config:
             return jsonify({'error': 'Template não encontrado'}), 404
+
+        # Obtém as variáveis do template
+        template_config = config[template_name]
+        variables = template_config.get('variables', [])
+
+        # Se houver variáveis aninhadas, processa-as
+        nested_vars = template_config.get('nested_variables', {})
+        for parent_var, child_vars in nested_vars.items():
+            if parent_var in variables:
+                # Para cada variável pai que está nas variáveis principais
+                for child_var in child_vars:
+                    # Adiciona a variável aninhada no formato "pai.filho"
+                    variables.append(f"{parent_var}.{child_var}")
+
+        return jsonify({'variables': variables})
+
     except Exception as e:
-        print(f"Erro ao buscar variáveis: {str(e)}")
+        print(f"Erro ao obter variáveis do template: {str(e)}")
         return jsonify({'error': str(e)}), 500
 
 @app.route('/api/templates/<template_name>/rename', methods=['POST'])

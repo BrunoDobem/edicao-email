@@ -3,7 +3,20 @@ let currentTemplateVariables = [];
 
 // Dados de exemplo para preencher os campos
 const exampleData = {
-    h1: "Promoção Imperdível: Destinos Internacionais com Preços Especiais! ✈️",
+    // Variáveis comuns
+    titulo: "Newsletter de Viagens - Ofertas Imperdíveis",
+    preview_text: "Confira nossas melhores ofertas de viagens!",
+    logo_url: "https://exemplo.com/logo.png",
+    logo_alt: "Logo da Agência",
+
+    // Variáveis do template1
+    imagem_topo_url: "https://exemplo.com/banner.jpg",
+    imagem_topo_alt: "Banner principal",
+    link_topo: "https://exemplo.com/promocoes",
+    subtitulo: "Aproveite nossas ofertas exclusivas",
+    titulo_principal: "Destinos Internacionais com Preços Especiais",
+
+    // Variáveis do template2
     destino1: {
         titulo: "Paris - França",
         descricao: "Conheça a cidade luz com os melhores preços! Passeie pela Torre Eiffel, visite o Museu do Louvre e aproveite a culinária francesa.",
@@ -11,7 +24,7 @@ const exampleData = {
         imagem_url: "https://exemplo.com/paris.jpg",
         imagem_alt: "Torre Eiffel ao pôr do sol",
         preco: "R$ 5.999",
-        dias: "7"
+        dias: "7 dias"
     },
     destino2: {
         titulo: "Roma - Itália",
@@ -20,7 +33,7 @@ const exampleData = {
         imagem_url: "https://exemplo.com/roma.jpg",
         imagem_alt: "Coliseu em Roma",
         preco: "R$ 6.499",
-        dias: "8"
+        dias: "8 dias"
     },
     destino3: {
         titulo: "Londres - Inglaterra",
@@ -29,7 +42,7 @@ const exampleData = {
         imagem_url: "https://exemplo.com/londres.jpg",
         imagem_alt: "Big Ben e Ponte de Londres",
         preco: "R$ 6.299",
-        dias: "6"
+        dias: "6 dias"
     },
     destino4: {
         titulo: "Nova York - EUA",
@@ -38,8 +51,22 @@ const exampleData = {
         imagem_url: "https://exemplo.com/nova-york.jpg",
         imagem_alt: "Times Square à noite",
         preco: "R$ 7.499",
-        dias: "9"
-    }
+        dias: "9 dias"
+    },
+
+    // Variáveis do template3
+    banner_url: "https://exemplo.com/banner-especial",
+    banner_alt: "Banner de oferta especial",
+    banner_image: "https://exemplo.com/banner-especial.jpg",
+    h1: "Promoção Imperdível: Pacotes com até 30% OFF! 🌍✈️",
+    mensagem_principal: "Aproveite nossa promoção especial de férias! Pacotes completos com passagem aérea, hospedagem e passeios inclusos.",
+    destaques: "✓ Passagem Aérea\n✓ Hospedagem\n✓ Café da manhã\n✓ Passeios inclusos\n✓ Seguro viagem",
+    tipo_pacote: "Pacote Completo",
+    destino: "Cancún - México",
+    preco_parcelado: "12x de R$ 499,90",
+    preco_pix: "R$ 4.999,00",
+    botao_url: "https://exemplo.com/pacotes/cancun",
+    botao_texto: "Ver Pacote Completo"
 };
 
 // Função para carregar as variáveis do template
@@ -113,13 +140,17 @@ function createDynamicFields(variables) {
         const destino = `destino${i}`;
         if (variables.includes(destino)) {
             if (!groups[destino]) groups[destino] = [];
-            groups[destino].push('titulo');
-            groups[destino].push('descricao');
-            groups[destino].push('link');
-            groups[destino].push('imagem_url');
-            groups[destino].push('imagem_alt');
-            groups[destino].push('preco');
-            groups[destino].push('dias');
+            // Adiciona as subvariáveis padrão para destinos
+            const subVariables = [
+                'titulo',
+                'descricao',
+                'link',
+                'imagem_url',
+                'imagem_alt',
+                'preco',
+                'dias'
+            ];
+            groups[destino].push(...subVariables);
         }
     }
 

@@ -10,21 +10,29 @@
             "imagem_topo_url",
             "subtitulo",
             "titulo_principal",
-            "destino1.link",
-            "destino1.imagem_alt",
-            "destino1.imagem_url",
-            "destino1.titulo",
-            "destino1.preco",
-            "destino1.dias",
-            "destino1.descricao",
-            "destino2.link",
-            "destino2.imagem_alt",
-            "destino2.imagem_url",
-            "destino2.titulo",
-            "destino2.preco",
-            "destino2.dias",
-            "destino2.descricao"
+            "destino1",
+            "destino2"
         ],
+        "nested_variables": {
+            "destino1": [
+                "titulo",
+                "descricao",
+                "link",
+                "imagem_url",
+                "imagem_alt",
+                "preco",
+                "dias"
+            ],
+            "destino2": [
+                "titulo",
+                "descricao",
+                "link",
+                "imagem_url",
+                "imagem_alt",
+                "preco",
+                "dias"
+            ]
+        },
         "description": "Template para promoção de destinos turísticos com dois destinos principais"
     },
     "template3": {
@@ -39,13 +47,14 @@
             "h1",
             "mensagem_principal",
             "destaques",
-            "oferta_url",
-            "oferta_alt",
-            "oferta_image",
             "tipo_pacote",
-            "destino"
+            "destino",
+            "preco_parcelado",
+            "preco_pix",
+            "botao_url",
+            "botao_texto"
         ],
-        "description": "Template para promoção de destinos turísticos com três destinos principais"
+        "description": "Template para promoção de destinos turísticos com banner e oferta especial"
     },
     "Template1": {
         "variables": [
@@ -63,6 +72,44 @@
             "destino3",
             "destino4"
         ],
+        "nested_variables": {
+            "destino1": [
+                "titulo",
+                "descricao",
+                "link",
+                "imagem_url",
+                "imagem_alt",
+                "preco",
+                "dias"
+            ],
+            "destino2": [
+                "titulo",
+                "descricao",
+                "link",
+                "imagem_url",
+                "imagem_alt",
+                "preco",
+                "dias"
+            ],
+            "destino3": [
+                "titulo",
+                "descricao",
+                "link",
+                "imagem_url",
+                "imagem_alt",
+                "preco",
+                "dias"
+            ],
+            "destino4": [
+                "titulo",
+                "descricao",
+                "link",
+                "imagem_url",
+                "imagem_alt",
+                "preco",
+                "dias"
+            ]
+        },
         "description": "Template base para emails"
     }
 }
