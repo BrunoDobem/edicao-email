@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gerenciador de Templates de Email</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #f8fafc;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        header {
+            background-color: #fff;
+            padding: 1.5rem;
+            border-radius: 12px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+
+        h1 {
+            color: #1e293b;
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .subtitle {
+            color: #64748b;
+            font-size: 1.1rem;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .card {
+            background-color: #fff;
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            cursor: pointer;
+        }
+
+        .card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .card h2 {
+            color: #1e293b;
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .card p {
+            color: #64748b;
+            margin-bottom: 1.5rem;
+        }
+
+        .card .actions {
+            display: flex;
+            gap: 0.75rem;
+        }
+
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border-radius: 6px;
+            font-weight: 500;
+            text-decoration: none;
+            transition: all 0.2s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .btn-primary {
+            background-color: #3b82f6;
+            color: #fff;
+        }
+
+        .btn-primary:hover {
+            background-color: #2563eb;
+        }
+
+        .btn-secondary {
+            background-color: #f1f5f9;
+            color: #1e293b;
+        }
+
+        .btn-secondary:hover {
+            background-color: #e2e8f0;
+        }
+
+        .icon {
+            font-size: 1.25rem;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 1rem;
+            }
+
+            .grid {
+                grid-template-columns: 1fr;
+            }
+
+            .card .actions {
+                flex-direction: column;
+            }
+
+            .btn {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <header>
+            <h1>Gerenciador de Templates de Email</h1>
+            <p class="subtitle">Gerencie e edite seus templates de email de forma simples e eficiente</p>
+        </header>
+
+        <div class="grid">
+            <div class="card">
+                <h2>Gerenciar Templates</h2>
+                <p>Visualize, crie e gerencie seus templates de email. Organize-os por categorias e mantenha tudo
+                    organizado.</p>
+                <div class="actions">
+                    <a href="/templates" class="btn btn-primary">
+                        <span class="icon">📋</span>
+                        Ver Templates
+                    </a>
+                </div>
+            </div>
+
+            <div class="card">
+                <h2>Editor de Email</h2>
+                <p>Edite o conteúdo dos seus templates com facilidade. Visualize as alterações em tempo real e exporte o
+                    código HTML.</p>
+                <div class="actions">
+                    <a href="/editor" class="btn btn-primary">
+                        <span class="icon">✏️</span>
+                        Editar Template
+                    </a>
+                </div>
+            </div>
+
+            <div class="card">
+                <h2>Configurações</h2>
+                <p>Acesse as configurações do sistema, gerencie variáveis e personalize sua experiência.</p>
+                <div class="actions">
+                    <a href="/config" class="btn btn-secondary">
+                        <span class="icon">⚙️</span>
+                        Configurações
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

@@ -1,0 +1,12 @@
+{
+    "empresa": {
+        "nome": "Nossa Empresa",
+        "email": "contato@exemplo.com",
+        "telefone": "(11) 1234-5678"
+    },
+    "editor": {
+        "tema": "claro",
+        "fonte": "Arial",
+        "tamanho_fonte": "14px"
+    }
+} 

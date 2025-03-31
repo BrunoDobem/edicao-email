@@ -1,0 +1,26 @@
+[run]
+source = app
+omit =
+    tests/*
+    venv/*
+    .venv/*
+    env/*
+    .env/*
+    .env.*
+    */__init__.py
+    */migrations/*
+    */static/*
+    */templates/*
+
+[report]
+exclude_lines =
+    pragma: no cover
+    def __repr__
+    raise NotImplementedError
+    if __name__ == .__main__.:
+    pass
+    raise ImportError
+    except ImportError:
+
+[html]
+directory = htmlcov

@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Editor de Template</title>
+    <link rel="stylesheet" href="/static/css/editor.css">
+</head>
+<body>
+    <div class="header">
+        <div class="header-left">
+            <a href="/" class="back-btn">← Voltar</a>
+            <select id="templateSelect" class="template-select">
+                <option value="default">Template Padrão</option>
+            </select>
+        </div>
+        <div class="header-right">
+            <button id="salvar" class="btn btn-primary">Salvar</button>
+            <button id="preview" class="btn btn-secondary">Preview</button>
+            <button id="codigo" class="btn btn-secondary">Ver Código</button>
+        </div>
+    </div>
+
+    <div class="main-content">
+        <div class="form-container">
+            <form id="editorForm">
+                <div class="form-group">
+                    <label for="titulo">Título</label>
+                    <input type="text" id="titulo" name="titulo" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="nome">Nome do Destinatário</label>
+                    <input type="text" id="nome" name="nome" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="mensagem">Mensagem</label>
+                    <textarea id="mensagem" name="mensagem" rows="5" required></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label>Botão</label>
+                    <div class="sub-form">
+                        <div class="form-group">
+                            <label for="botao.texto">Texto do Botão</label>
+                            <input type="text" id="botao.texto" name="botao.texto">
+                        </div>
+                        <div class="form-group">
+                            <label for="botao.url">URL do Botão</label>
+                            <input type="url" id="botao.url" name="botao.url">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="rodape">Rodapé</label>
+                    <input type="text" id="rodape" name="rodape" required>
+                </div>
+            </form>
+        </div>
+
+        <div class="preview-container" id="previewContainer">
+            <iframe id="previewFrame" frameborder="0"></iframe>
+        </div>
+
+        <div class="codigo-container" id="codigoContainer" style="display: none;">
+            <pre><code id="codigoHTML"></code></pre>
+            <button id="copiarCodigo" class="btn btn-secondary">Copiar Código</button>
+            <div id="copiadoMensagem" class="mensagem-copiado">Código copiado!</div>
+        </div>
+    </div>
+
+    <script src="/static/js/editor.js"></script>
+</body>
+</html> 

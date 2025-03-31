@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Configurações - Editor de Email</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #f8fafc;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .back-btn {
+            text-decoration: none;
+            color: #64748b;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-weight: 500;
+        }
+
+        .back-btn:hover {
+            color: #1e293b;
+        }
+
+        h1 {
+            color: #1e293b;
+            font-size: 1.875rem;
+        }
+
+        .config-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 2rem;
+        }
+
+        .config-section {
+            background-color: #fff;
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+
+        .config-section h2 {
+            color: #1e293b;
+            font-size: 1.25rem;
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.75rem;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            color: #64748b;
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+        }
+
+        .form-group input[type="text"],
+        .form-group input[type="number"],
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid #e2e8f0;
+            border-radius: 6px;
+            font-size: 0.875rem;
+            color: #1e293b;
+            transition: border-color 0.2s ease;
+        }
+
+        .form-group input[type="text"]:focus,
+        .form-group input[type="number"]:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #3b82f6;
+        }
+
+        .form-group textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border-radius: 6px;
+            font-weight: 500;
+            text-decoration: none;
+            transition: all 0.2s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            border: none;
+            cursor: pointer;
+        }
+
+        .btn-primary {
+            background-color: #3b82f6;
+            color: #fff;
+        }
+
+        .btn-primary:hover {
+            background-color: #2563eb;
+        }
+
+        .variables-list {
+            list-style: none;
+        }
+
+        .variable-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 0.75rem;
+            border: 1px solid #e2e8f0;
+            border-radius: 6px;
+            margin-bottom: 0.5rem;
+        }
+
+        .variable-item input {
+            flex: 1;
+        }
+
+        .variable-item button {
+            padding: 0.5rem;
+            border: none;
+            background: none;
+            cursor: pointer;
+            color: #ef4444;
+            transition: color 0.2s ease;
+        }
+
+        .variable-item button:hover {
+            color: #dc2626;
+        }
+
+        .add-variable {
+            display: flex;
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+
+        .add-variable input {
+            flex: 1;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 1rem;
+            }
+
+            header {
+                flex-direction: column;
+                gap: 1rem;
+                text-align: center;
+            }
+
+            .config-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="header-left">
+                <a href="/" class="back-btn">
+                    <span>←</span>
+                    Voltar
+                </a>
+                <h1>Configurações</h1>
+            </div>
+            <button id="salvarConfig" class="btn btn-primary">
+                <span>💾</span>
+                Salvar Alterações
+            </button>
+        </header>
+
+        <div class="config-grid">
+            <div class="config-section">
+                <h2>Configurações Gerais</h2>
+                <div class="form-group">
+                    <label for="default_template">Template Padrão</label>
+                    <select id="default_template">
+                        <option value="base">Base</option>
+                        <option value="template2">Template 2</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="preview_scale">Escala do Preview</label>
+                    <input type="number" id="preview_scale" value="0.8" step="0.1" min="0.5" max="1">
+                </div>
+            </div>
+
+            <div class="config-section">
+                <h2>Variáveis do Sistema</h2>
+                <ul class="variables-list">
+                    {% for key, value in variaveis.items() %}
+                    <li class="variable-item">
+                        <input type="text" value="{{ key }}" readonly>
+                        <input type="text" value="{{ value }}">
+                        <button title="Remover variável">🗑️</button>
+                    </li>
+                    {% endfor %}
+                </ul>
+                <div class="add-variable">
+                    <input type="text" placeholder="Nova variável">
+                    <button class="btn btn-primary">Adicionar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Carregar configurações
+        async function carregarConfiguracoes() {
+            try {
+                const response = await fetch('/api/config');
+                if (!response.ok) throw new Error('Erro ao carregar configurações');
+                const config = await response.json();
+                
+                document.getElementById('default_template').value = config.default_template;
+                document.getElementById('preview_scale').value = config.preview_scale;
+            } catch (error) {
+                console.error('Erro:', error);
+                alert('Erro ao carregar configurações');
+            }
+        }
+
+        // Salvar configurações
+        async function salvarConfiguracoes() {
+            try {
+                const config = {
+                    default_template: document.getElementById('default_template').value,
+                    preview_scale: parseFloat(document.getElementById('preview_scale').value)
+                };
+
+                const response = await fetch('/api/config', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(config)
+                });
+
+                if (!response.ok) throw new Error('Erro ao salvar configurações');
+                
+                alert('Configurações salvas com sucesso!');
+            } catch (error) {
+                console.error('Erro:', error);
+                alert('Erro ao salvar configurações');
+            }
+        }
+
+        // Salvar variáveis
+        async function salvarVariaveis() {
+            try {
+                const variaveis = {};
+                document.querySelectorAll('.variable-item').forEach(item => {
+                    const [keyInput, valueInput] = item.querySelectorAll('input');
+                    variaveis[keyInput.value] = valueInput.value;
+                });
+
+                const response = await fetch('/api/variables', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(variaveis)
+                });
+
+                if (!response.ok) throw new Error('Erro ao salvar variáveis');
+                
+                alert('Variáveis salvas com sucesso!');
+            } catch (error) {
+                console.error('Erro:', error);
+                alert('Erro ao salvar variáveis');
+            }
+        }
+
+        // Remover variável
+        document.querySelectorAll('.variable-item button').forEach(button => {
+            button.addEventListener('click', (e) => {
+                const item = e.currentTarget.closest('.variable-item');
+                if (confirm('Tem certeza que deseja remover esta variável?')) {
+                    item.remove();
+                }
+            });
+        });
+
+        // Adicionar nova variável
+        document.querySelector('.add-variable button').addEventListener('click', () => {
+            const input = document.querySelector('.add-variable input');
+            if (input.value.trim()) {
+                const newItem = document.createElement('li');
+                newItem.className = 'variable-item';
+                newItem.innerHTML = `
+                    <input type="text" value="${input.value}" readonly>
+                    <input type="text" value="">
+                    <button title="Remover variável">🗑️</button>
+                `;
+                document.querySelector('.variables-list').appendChild(newItem);
+                input.value = '';
+            }
+        });
+
+        // Salvar todas as alterações
+        document.getElementById('salvarConfig').addEventListener('click', async () => {
+            await Promise.all([
+                salvarConfiguracoes(),
+                salvarVariaveis()
+            ]);
+        });
+
+        // Carregar configurações ao iniciar
+        carregarConfiguracoes();
+    </script>
+</body>
+</html> 
