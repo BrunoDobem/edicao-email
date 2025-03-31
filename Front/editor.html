@@ -1,17 +1,24 @@
 <!DOCTYPE html>
 <html>
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Editor de Template</title>
     <link rel="stylesheet" href="/static/css/editor.css">
 </head>
+
 <body>
     <div class="header">
         <div class="header-left">
             <a href="/" class="back-btn">← Voltar</a>
             <select id="templateSelect" class="template-select">
-                <option value="default">Template Padrão</option>
+                <option value="">Selecione um template</option>
+                {% for template in templates %}
+                <option value="{{ template.nome }}" {% if template.nome==selected_template %}selected{% endif %}>
+                    {{ template.nome }}
+                </option>
+                {% endfor %}
             </select>
         </div>
         <div class="header-right">
@@ -24,39 +31,44 @@
     <div class="main-content">
         <div class="form-container">
             <form id="editorForm">
-                <div class="form-group">
-                    <label for="titulo">Título</label>
-                    <input type="text" id="titulo" name="titulo" required>
-                </div>
+                {% if error %}
+                <div class="error-message">{{ error }}</div>
+                {% else %}
+                {% if template_variables %}
+                {% set groups = {} %}
+                {% for variable in template_variables %}
+                {% set parts = variable.split('.') %}
+                {% set group = parts[0] if parts|length > 1 else 'geral' %}
+                {% if group not in groups %}
+                {% set _ = groups.update({group: []}) %}
+                {% endif %}
+                {% set _ = groups[group].append(variable) %}
+                {% endfor %}
 
-                <div class="form-group">
-                    <label for="nome">Nome do Destinatário</label>
-                    <input type="text" id="nome" name="nome" required>
-                </div>
-
-                <div class="form-group">
-                    <label for="mensagem">Mensagem</label>
-                    <textarea id="mensagem" name="mensagem" rows="5" required></textarea>
-                </div>
-
-                <div class="form-group">
-                    <label>Botão</label>
-                    <div class="sub-form">
-                        <div class="form-group">
-                            <label for="botao.texto">Texto do Botão</label>
-                            <input type="text" id="botao.texto" name="botao.texto">
-                        </div>
-                        <div class="form-group">
-                            <label for="botao.url">URL do Botão</label>
-                            <input type="url" id="botao.url" name="botao.url">
-                        </div>
+                {% for group, vars in groups.items() %}
+                <div class="form-section">
+                    <h3>{{ 'Configurações Gerais' if group == 'geral' else group|title }}</h3>
+                    {% for variable in vars %}
+                    <div class="form-group">
+                        <label for="{{ variable }}">{{ variable|replace('.', ' > ') }}</label>
+                        {% if 'descricao' in variable %}
+                        <textarea id="{{ variable }}" name="{{ variable }}" rows="4" class="form-control"></textarea>
+                        {% else %}
+                        <input type="{{ 'url' if 'url' in variable or 'image' in variable else 'text' }}"
+                            id="{{ variable }}" name="{{ variable }}" class="form-control">
+                        {% endif %}
                     </div>
+                    {% endfor %}
                 </div>
-
-                <div class="form-group">
-                    <label for="rodape">Rodapé</label>
-                    <input type="text" id="rodape" name="rodape" required>
-                </div>
+                {% endfor %}
+                {% else %}
+                {% if selected_template %}
+                <p>Nenhuma variável disponível para este template.</p>
+                {% else %}
+                <p>Selecione um template para começar.</p>
+                {% endif %}
+                {% endif %}
+                {% endif %}
             </form>
         </div>
 
@@ -73,4 +85,5 @@
 
     <script src="/static/js/editor.js"></script>
 </body>
-</html> 
+
+</html>

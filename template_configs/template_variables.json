@@ -1,0 +1,68 @@
+{
+    "base": {
+        "variables": [
+            "titulo",
+            "preview_text",
+            "logo_url",
+            "logo_alt",
+            "imagem_topo_url",
+            "imagem_topo_alt",
+            "link_topo",
+            "subtitulo",
+            "titulo_principal",
+            "destino1",
+            "destino2",
+            "destino3",
+            "destino4"
+        ],
+        "description": "Template base para emails"
+    },
+    "template2": {
+        "variables": [
+            "titulo",
+            "preview_text",
+            "logo_url",
+            "logo_alt",
+            "link_topo",
+            "imagem_topo_alt",
+            "imagem_topo_url",
+            "subtitulo",
+            "titulo_principal",
+            "destino1.link",
+            "destino1.imagem_alt",
+            "destino1.imagem_url",
+            "destino1.titulo",
+            "destino1.preco",
+            "destino1.dias",
+            "destino1.descricao",
+            "destino2.link",
+            "destino2.imagem_alt",
+            "destino2.imagem_url",
+            "destino2.titulo",
+            "destino2.preco",
+            "destino2.dias",
+            "destino2.descricao"
+        ],
+        "description": "Template para promoção de destinos turísticos com dois destinos principais"
+    },
+    "template3": {
+        "variables": [
+            "titulo",
+            "preview_text",
+            "logo_url",
+            "logo_alt",
+            "banner_url",
+            "banner_alt",
+            "banner_image",
+            "h1",
+            "mensagem_principal",
+            "destaques",
+            "oferta_url",
+            "oferta_alt",
+            "oferta_image",
+            "tipo_pacote",
+            "destino"
+        ],
+        "description": "Template para promoção de destinos turísticos com três destinos principais"
+    }
+}

@@ -1,9 +1,10 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Configurações - Editor de Email</title>
+    <title>Configurações</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
         * {
@@ -26,10 +27,14 @@
         }
 
         header {
+            background-color: #fff;
+            padding: 1.5rem;
+            border-radius: 12px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+            margin-bottom: 2rem;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 2rem;
         }
 
         .header-left {
@@ -39,41 +44,37 @@
         }
 
         .back-btn {
+            color: #3b82f6;
             text-decoration: none;
-            color: #64748b;
+            font-weight: 500;
             display: flex;
             align-items: center;
             gap: 0.5rem;
-            font-weight: 500;
         }
 
         .back-btn:hover {
-            color: #1e293b;
+            color: #2563eb;
         }
 
         h1 {
             color: #1e293b;
-            font-size: 1.875rem;
+            font-size: 1.5rem;
+            margin: 0;
         }
 
-        .config-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
-            gap: 2rem;
-        }
-
-        .config-section {
+        .card {
             background-color: #fff;
             border-radius: 12px;
             padding: 1.5rem;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+            margin-bottom: 1.5rem;
         }
 
-        .config-section h2 {
+        .card h2 {
             color: #1e293b;
             font-size: 1.25rem;
-            margin-bottom: 1.5rem;
-            padding-bottom: 0.75rem;
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
             border-bottom: 1px solid #e2e8f0;
         }
 
@@ -81,37 +82,38 @@
             margin-bottom: 1.5rem;
         }
 
-        .form-group label {
+        .form-group:last-child {
+            margin-bottom: 0;
+        }
+
+        label {
             display: block;
-            color: #64748b;
+            color: #1e293b;
             font-weight: 500;
             margin-bottom: 0.5rem;
         }
 
-        .form-group input[type="text"],
-        .form-group input[type="number"],
-        .form-group select,
-        .form-group textarea {
+        input[type="text"],
+        input[type="number"],
+        select,
+        textarea {
             width: 100%;
             padding: 0.75rem;
             border: 1px solid #e2e8f0;
             border-radius: 6px;
-            font-size: 0.875rem;
+            font-size: 1rem;
             color: #1e293b;
+            background-color: #fff;
             transition: border-color 0.2s ease;
         }
 
-        .form-group input[type="text"]:focus,
-        .form-group input[type="number"]:focus,
-        .form-group select:focus,
-        .form-group textarea:focus {
+        input[type="text"]:focus,
+        input[type="number"]:focus,
+        select:focus,
+        textarea:focus {
             outline: none;
             border-color: #3b82f6;
-        }
-
-        .form-group textarea {
-            min-height: 100px;
-            resize: vertical;
+            box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.1);
         }
 
         .btn {
@@ -136,45 +138,28 @@
             background-color: #2563eb;
         }
 
-        .variables-list {
-            list-style: none;
+        .btn-secondary {
+            background-color: #f1f5f9;
+            color: #1e293b;
         }
 
-        .variable-item {
+        .btn-secondary:hover {
+            background-color: #e2e8f0;
+        }
+
+        .actions {
             display: flex;
-            align-items: center;
+            justify-content: flex-end;
             gap: 1rem;
-            padding: 0.75rem;
-            border: 1px solid #e2e8f0;
-            border-radius: 6px;
-            margin-bottom: 0.5rem;
+            margin-top: 2rem;
         }
 
-        .variable-item input {
-            flex: 1;
-        }
-
-        .variable-item button {
-            padding: 0.5rem;
-            border: none;
-            background: none;
-            cursor: pointer;
-            color: #ef4444;
-            transition: color 0.2s ease;
-        }
-
-        .variable-item button:hover {
+        .error-message {
+            background-color: #fee2e2;
             color: #dc2626;
-        }
-
-        .add-variable {
-            display: flex;
-            gap: 0.5rem;
-            margin-top: 1rem;
-        }
-
-        .add-variable input {
-            flex: 1;
+            padding: 1rem;
+            border-radius: 6px;
+            margin-bottom: 1.5rem;
         }
 
         @media (max-width: 768px) {
@@ -188,12 +173,22 @@
                 text-align: center;
             }
 
-            .config-grid {
-                grid-template-columns: 1fr;
+            .header-left {
+                flex-direction: column;
+            }
+
+            .actions {
+                flex-direction: column;
+            }
+
+            .btn {
+                width: 100%;
+                justify-content: center;
             }
         }
     </style>
 </head>
+
 <body>
     <div class="container">
         <header>
@@ -204,150 +199,100 @@
                 </a>
                 <h1>Configurações</h1>
             </div>
-            <button id="salvarConfig" class="btn btn-primary">
-                <span>💾</span>
-                Salvar Alterações
-            </button>
         </header>
 
-        <div class="config-grid">
-            <div class="config-section">
+        {% if error %}
+        <div class="error-message">
+            {{ error }}
+        </div>
+        {% endif %}
+
+        <form id="configForm">
+            <div class="card">
                 <h2>Configurações Gerais</h2>
                 <div class="form-group">
-                    <label for="default_template">Template Padrão</label>
-                    <select id="default_template">
-                        <option value="base">Base</option>
-                        <option value="template2">Template 2</option>
+                    <label for="defaultTemplate">Template Padrão</label>
+                    <select id="defaultTemplate" name="default_template">
+                        <option value="base" {% if config.default_template=='base' %}selected{% endif %}>Base</option>
+                        <option value="template2" {% if config.default_template=='template2' %}selected{% endif %}>
+                            Template 2</option>
+                        <option value="template3" {% if config.default_template=='template3' %}selected{% endif %}>
+                            Template 3</option>
                     </select>
                 </div>
                 <div class="form-group">
-                    <label for="preview_scale">Escala do Preview</label>
-                    <input type="number" id="preview_scale" value="0.8" step="0.1" min="0.5" max="1">
+                    <label for="previewScale">Escala do Preview</label>
+                    <input type="number" id="previewScale" name="preview_scale" min="0.1" max="1" step="0.1"
+                        value="{{ config.preview_scale }}" placeholder="0.8">
                 </div>
             </div>
 
-            <div class="config-section">
-                <h2>Variáveis do Sistema</h2>
-                <ul class="variables-list">
-                    {% for key, value in variaveis.items() %}
-                    <li class="variable-item">
-                        <input type="text" value="{{ key }}" readonly>
-                        <input type="text" value="{{ value }}">
-                        <button title="Remover variável">🗑️</button>
-                    </li>
-                    {% endfor %}
-                </ul>
-                <div class="add-variable">
-                    <input type="text" placeholder="Nova variável">
-                    <button class="btn btn-primary">Adicionar</button>
+            <div class="card">
+                <h2>Variáveis Globais</h2>
+                <div class="form-group">
+                    <label for="logoUrl">URL do Logo</label>
+                    <input type="text" id="logoUrl" name="logo_url"
+                        value="{{ variables.logo_url if variables.logo_url }}"
+                        placeholder="https://exemplo.com/logo.png">
+                </div>
+                <div class="form-group">
+                    <label for="logoAlt">Texto Alternativo do Logo</label>
+                    <input type="text" id="logoAlt" name="logo_alt"
+                        value="{{ variables.logo_alt if variables.logo_alt }}" placeholder="Logo da Empresa">
                 </div>
             </div>
-        </div>
+
+            <div class="actions">
+                <button type="button" class="btn btn-secondary" onclick="resetarConfiguracoes()">Resetar</button>
+                <button type="submit" class="btn btn-primary">Salvar Alterações</button>
+            </div>
+        </form>
     </div>
 
     <script>
-        // Carregar configurações
-        async function carregarConfiguracoes() {
-            try {
-                const response = await fetch('/api/config');
-                if (!response.ok) throw new Error('Erro ao carregar configurações');
-                const config = await response.json();
-                
-                document.getElementById('default_template').value = config.default_template;
-                document.getElementById('preview_scale').value = config.preview_scale;
-            } catch (error) {
-                console.error('Erro:', error);
-                alert('Erro ao carregar configurações');
-            }
-        }
+        document.getElementById('configForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
 
-        // Salvar configurações
-        async function salvarConfiguracoes() {
-            try {
-                const config = {
-                    default_template: document.getElementById('default_template').value,
-                    preview_scale: parseFloat(document.getElementById('preview_scale').value)
-                };
+            const formData = {
+                config: {
+                    default_template: document.getElementById('defaultTemplate').value,
+                    preview_scale: parseFloat(document.getElementById('previewScale').value)
+                },
+                variables: {
+                    logo_url: document.getElementById('logoUrl').value,
+                    logo_alt: document.getElementById('logoAlt').value
+                }
+            };
 
+            try {
                 const response = await fetch('/api/config', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
                     },
-                    body: JSON.stringify(config)
+                    body: JSON.stringify(formData)
                 });
 
-                if (!response.ok) throw new Error('Erro ao salvar configurações');
-                
+                if (!response.ok) {
+                    throw new Error('Erro ao salvar configurações');
+                }
+
                 alert('Configurações salvas com sucesso!');
             } catch (error) {
                 console.error('Erro:', error);
-                alert('Erro ao salvar configurações');
+                alert('Erro ao salvar configurações. Por favor, tente novamente.');
+            }
+        });
+
+        function resetarConfiguracoes() {
+            if (confirm('Tem certeza que deseja resetar todas as configurações?')) {
+                document.getElementById('defaultTemplate').value = 'base';
+                document.getElementById('previewScale').value = '0.8';
+                document.getElementById('logoUrl').value = '';
+                document.getElementById('logoAlt').value = '';
             }
         }
-
-        // Salvar variáveis
-        async function salvarVariaveis() {
-            try {
-                const variaveis = {};
-                document.querySelectorAll('.variable-item').forEach(item => {
-                    const [keyInput, valueInput] = item.querySelectorAll('input');
-                    variaveis[keyInput.value] = valueInput.value;
-                });
-
-                const response = await fetch('/api/variables', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify(variaveis)
-                });
-
-                if (!response.ok) throw new Error('Erro ao salvar variáveis');
-                
-                alert('Variáveis salvas com sucesso!');
-            } catch (error) {
-                console.error('Erro:', error);
-                alert('Erro ao salvar variáveis');
-            }
-        }
-
-        // Remover variável
-        document.querySelectorAll('.variable-item button').forEach(button => {
-            button.addEventListener('click', (e) => {
-                const item = e.currentTarget.closest('.variable-item');
-                if (confirm('Tem certeza que deseja remover esta variável?')) {
-                    item.remove();
-                }
-            });
-        });
-
-        // Adicionar nova variável
-        document.querySelector('.add-variable button').addEventListener('click', () => {
-            const input = document.querySelector('.add-variable input');
-            if (input.value.trim()) {
-                const newItem = document.createElement('li');
-                newItem.className = 'variable-item';
-                newItem.innerHTML = `
-                    <input type="text" value="${input.value}" readonly>
-                    <input type="text" value="">
-                    <button title="Remover variável">🗑️</button>
-                `;
-                document.querySelector('.variables-list').appendChild(newItem);
-                input.value = '';
-            }
-        });
-
-        // Salvar todas as alterações
-        document.getElementById('salvarConfig').addEventListener('click', async () => {
-            await Promise.all([
-                salvarConfiguracoes(),
-                salvarVariaveis()
-            ]);
-        });
-
-        // Carregar configurações ao iniciar
-        carregarConfiguracoes();
     </script>
 </body>
-</html> 
+
+</html>

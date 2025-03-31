@@ -1,0 +1,33 @@
+{
+    "configuracoes_email": {
+        "titulo": "Oferta Especial - Dubai",
+        "preview_text": "Aproveite a Semana do Consumidor e realize sua próxima aventura com descontos exclusivos!",
+        "logo": {
+            "url": "https://lp.hurb.com/hubfs/CREATIVE/TESTE%20EMAIL/Logo%20do%20hurb.png",
+            "alt": "Logo Hurb"
+        },
+        "banner": {
+            "url": "https://www.hurb.com/br/deals/hurb-creditos?utm_source=email&utm_medium=listmonk&utm_campaign=semana_do_viajante_hurb_creditos&cmp=737328",
+            "alt": "Topo",
+            "image": "https://blog.hurb.com/wp-content/uploads/2025/03/TOPO-E-MAIL-NOVO-1.png"
+        },
+        "conteudo": {
+            "nome": "{{ .Subscriber.FirstName }}",
+            "mensagem_principal": "Na Semana do Consumidor, você pode utilizar 100% dos seus Hurb Créditos na compra dos pacotes selecionados e garantir experiências inesquecíveis com economia total.",
+            "destaques": "✅ Destinos incríveis ✅ Hotéis selecionados ✅ Preços imperdíveis"
+        },
+        "oferta": {
+            "url": "https://www.hurb.com/br/packages/dubai-passagem-aerea-hospedagem/1387641?utm_source=email&utm_medium=listmonk&utm_campaign=semana_do_viajante_hurb_creditos&cmp=737328",
+            "alt": "Oferta Dubai",
+            "image": "https://blog.hurb.com/wp-content/uploads/2025/03/03-13_E-mail_Dubai_DS_MO.png",
+            "tipo_pacote": "Pacote de Viagem",
+            "destino": "Dubai",
+            "preco_parcelado": "12x R$ 320",
+            "preco_pix": "ou R$ 1.996 no Pix"
+        },
+        "botao": {
+            "url": "https://www.hurb.com/br/packages/dubai-passagem-aerea-hospedagem/1387641?utm_source=email&utm_medium=listmonk&utm_campaign=semana_do_viajante_hurb_creditos&cmp=737328",
+            "texto": "Garantir agora"
+        }
+    }
+}
