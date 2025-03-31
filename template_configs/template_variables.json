@@ -1,22 +1,4 @@
 {
-    "base": {
-        "variables": [
-            "titulo",
-            "preview_text",
-            "logo_url",
-            "logo_alt",
-            "imagem_topo_url",
-            "imagem_topo_alt",
-            "link_topo",
-            "subtitulo",
-            "titulo_principal",
-            "destino1",
-            "destino2",
-            "destino3",
-            "destino4"
-        ],
-        "description": "Template base para emails"
-    },
     "template2": {
         "variables": [
             "titulo",
@@ -64,5 +46,23 @@
             "destino"
         ],
         "description": "Template para promoção de destinos turísticos com três destinos principais"
+    },
+    "Template1": {
+        "variables": [
+            "titulo",
+            "preview_text",
+            "logo_url",
+            "logo_alt",
+            "imagem_topo_url",
+            "imagem_topo_alt",
+            "link_topo",
+            "subtitulo",
+            "titulo_principal",
+            "destino1",
+            "destino2",
+            "destino3",
+            "destino4"
+        ],
+        "description": "Template base para emails"
     }
 }

@@ -63,16 +63,19 @@
         }
 
         .btn {
-            padding: 0.75rem 1.5rem;
+            padding: 0.5rem 1rem;
             border-radius: 6px;
             font-weight: 500;
             text-decoration: none;
             transition: all 0.2s ease;
             display: inline-flex;
             align-items: center;
+            justify-content: center;
             gap: 0.5rem;
             border: none;
             cursor: pointer;
+            font-size: 0.9rem;
+            width: 100%;
         }
 
         .btn-primary {
@@ -123,15 +126,16 @@
 
         .card-preview {
             width: 100%;
-            height: 200px;
+            height: 400px;
             background-color: #f8fafc;
             border-bottom: 1px solid #e2e8f0;
             overflow: hidden;
+            position: relative;
         }
 
-        .card-preview iframe {
-            width: 100%;
-            height: 100%;
+        .template-preview {
+            width: 200%;
+            height: 200%;
             border: none;
             transform: scale(0.5);
             transform-origin: 0 0;
@@ -144,12 +148,17 @@
         .card-title {
             color: #1e293b;
             font-size: 1.25rem;
-            margin-bottom: 1rem;
+            margin-bottom: 0.5rem;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
         }
 
         .card-actions {
-            display: flex;
-            gap: 0.75rem;
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 0.5rem;
+            margin-top: 1rem;
         }
 
         .empty-state {
@@ -169,6 +178,18 @@
         .empty-state p {
             color: #64748b;
             margin-bottom: 2rem;
+        }
+
+        .loading {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: #64748b;
+        }
+
+        .icon {
+            font-size: 1rem;
         }
 
         @media (max-width: 768px) {
@@ -202,38 +223,39 @@
     <div class="container">
         <header>
             <div class="header-left">
-                <a href="/" class="back-btn">
-                    <span>←</span>
-                    Voltar
-                </a>
+                <a href="/" class="back-btn">← Voltar</a>
                 <h1>Gerenciar Templates</h1>
             </div>
-            <button class="btn btn-primary" onclick="criarTemplate()">
-                <span>+</span>
-                Novo Template
-            </button>
         </header>
 
-        {% if error %}
-        <div class="empty-state">
-            <h2>Erro ao carregar templates</h2>
-            <p>{{ error }}</p>
-            <a href="/templates" class="btn btn-primary">Tentar Novamente</a>
-        </div>
-        {% elif templates %}
+        {% if templates %}
         <div class="grid">
             {% for template in templates %}
             <div class="card">
                 <div class="card-preview">
-                    <iframe src="/preview/{{ template.nome }}" title="{{ template.nome }}"></iframe>
+                    <div class="loading">Carregando preview...</div>
+                    <iframe class="template-preview" data-template="{{ template.nome }}"
+                        title="Preview do template {{ template.nome }}"></iframe>
                 </div>
                 <div class="card-content">
                     <h2 class="card-title">{{ template.nome }}</h2>
                     <div class="card-actions">
-                        <a href="{{ template.caminho }}" class="btn btn-primary">Editar</a>
-                        <button class="btn btn-secondary"
-                            onclick="duplicarTemplate('{{ template.nome }}')">Duplicar</button>
-                        <button class="btn btn-danger" onclick="excluirTemplate('{{ template.nome }}')">Excluir</button>
+                        <a href="/editor?template={{ template.nome }}" class="btn btn-primary">
+                            <span class="icon">✏️</span>
+                            Editar
+                        </a>
+                        <button class="btn btn-secondary" onclick="duplicateTemplate('{{ template.nome }}')">
+                            <span class="icon">📋</span>
+                            Duplicar
+                        </button>
+                        <button class="btn btn-secondary" onclick="renameTemplate('{{ template.nome }}')">
+                            <span class="icon">✍️</span>
+                            Renomear
+                        </button>
+                        <button class="btn btn-danger" onclick="deleteTemplate('{{ template.nome }}')">
+                            <span class="icon">🗑️</span>
+                            Excluir
+                        </button>
                     </div>
                 </div>
             </div>
@@ -243,88 +265,15 @@
         <div class="empty-state">
             <h2>Nenhum template encontrado</h2>
             <p>Comece criando seu primeiro template de email.</p>
-            <button class="btn btn-primary" onclick="criarTemplate()">
-                <span>+</span>
-                Criar Novo Template
-            </button>
+            <a href="/editor" class="btn btn-primary">
+                <span class="icon">✨</span>
+                Criar Template
+            </a>
         </div>
         {% endif %}
     </div>
 
-    <script>
-        async function criarTemplate() {
-            const nome = prompt('Digite o nome do novo template:');
-            if (!nome) return;
-
-            try {
-                const response = await fetch(`/api/templates/${nome}`, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({
-                        base_template: 'base'
-                    })
-                });
-
-                if (!response.ok) {
-                    throw new Error('Erro ao criar template');
-                }
-
-                window.location.reload();
-            } catch (error) {
-                console.error('Erro:', error);
-                alert('Erro ao criar template. Por favor, tente novamente.');
-            }
-        }
-
-        async function duplicarTemplate(nome) {
-            const novoNome = prompt('Digite o nome para a cópia do template:');
-            if (!novoNome) return;
-
-            try {
-                const response = await fetch(`/api/templates/${nome}/duplicate`, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({
-                        novo_nome: novoNome
-                    })
-                });
-
-                if (!response.ok) {
-                    throw new Error('Erro ao duplicar template');
-                }
-
-                window.location.reload();
-            } catch (error) {
-                console.error('Erro:', error);
-                alert('Erro ao duplicar template. Por favor, tente novamente.');
-            }
-        }
-
-        async function excluirTemplate(nome) {
-            if (!confirm(`Tem certeza que deseja excluir o template "${nome}"?`)) {
-                return;
-            }
-
-            try {
-                const response = await fetch(`/api/templates/${nome}`, {
-                    method: 'DELETE'
-                });
-
-                if (!response.ok) {
-                    throw new Error('Erro ao excluir template');
-                }
-
-                window.location.reload();
-            } catch (error) {
-                console.error('Erro:', error);
-                alert('Erro ao excluir template. Por favor, tente novamente.');
-            }
-        }
-    </script>
+    <script src="/static/js/templates.js"></script>
 </body>
 
 </html>

@@ -1,6 +1,47 @@
 // Estado global para armazenar as variáveis do template atual
 let currentTemplateVariables = [];
 
+// Dados de exemplo para preencher os campos
+const exampleData = {
+    h1: "Promoção Imperdível: Destinos Internacionais com Preços Especiais! ✈️",
+    destino1: {
+        titulo: "Paris - França",
+        descricao: "Conheça a cidade luz com os melhores preços! Passeie pela Torre Eiffel, visite o Museu do Louvre e aproveite a culinária francesa.",
+        link: "https://exemplo.com/paris",
+        imagem_url: "https://exemplo.com/paris.jpg",
+        imagem_alt: "Torre Eiffel ao pôr do sol",
+        preco: "R$ 5.999",
+        dias: "7"
+    },
+    destino2: {
+        titulo: "Roma - Itália",
+        descricao: "Explore a cidade eterna com roteiros exclusivos! Visite o Coliseu, o Vaticano e saboreie a autêntica pizza italiana.",
+        link: "https://exemplo.com/roma",
+        imagem_url: "https://exemplo.com/roma.jpg",
+        imagem_alt: "Coliseu em Roma",
+        preco: "R$ 6.499",
+        dias: "8"
+    },
+    destino3: {
+        titulo: "Londres - Inglaterra",
+        descricao: "Descubra a magia da capital britânica! Conheça o Big Ben, o Palácio de Buckingham e passeie pelo Rio Tâmisa.",
+        link: "https://exemplo.com/londres",
+        imagem_url: "https://exemplo.com/londres.jpg",
+        imagem_alt: "Big Ben e Ponte de Londres",
+        preco: "R$ 6.299",
+        dias: "6"
+    },
+    destino4: {
+        titulo: "Nova York - EUA",
+        descricao: "A cidade que nunca dorme espera por você! Times Square, Central Park e muito mais para explorar.",
+        link: "https://exemplo.com/nova-york",
+        imagem_url: "https://exemplo.com/nova-york.jpg",
+        imagem_alt: "Times Square à noite",
+        preco: "R$ 7.499",
+        dias: "9"
+    }
+};
+
 // Função para carregar as variáveis do template
 async function loadTemplateVariables(templateName) {
     try {
@@ -25,6 +66,15 @@ async function loadTemplateVariables(templateName) {
     } catch (error) {
         console.error('[Debug] Erro ao carregar variáveis:', error);
         return [];
+    }
+}
+
+// Função para preencher um campo com valor de exemplo
+function fillFieldWithExample(field, value) {
+    if (field && value !== undefined) {
+        field.value = value;
+        // Dispara um evento de input para atualizar o preview
+        field.dispatchEvent(new Event('input'));
     }
 }
 
@@ -88,6 +138,14 @@ function createDynamicFields(variables) {
         vars.forEach(variable => {
             const field = createField(group === 'geral' ? variable : `${group}.${variable}`);
             section.appendChild(field);
+
+            // Preenche o campo com dados de exemplo
+            const input = field.querySelector('input, textarea');
+            if (group === 'geral') {
+                fillFieldWithExample(input, exampleData[variable]);
+            } else {
+                fillFieldWithExample(input, exampleData[group]?.[variable]);
+            }
         });
 
         formContainer.appendChild(section);
@@ -98,6 +156,9 @@ function createDynamicFields(variables) {
     inputs.forEach(input => {
         input.addEventListener('input', debounce(generatePreview, 500));
     });
+
+    // Gera o preview inicial
+    generatePreview();
 }
 
 // Função auxiliar para criar um campo individual

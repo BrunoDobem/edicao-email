@@ -280,5 +280,45 @@ def get_template_specific_variables(template_name):
         print(f"Erro ao buscar variáveis: {str(e)}")
         return jsonify({'error': str(e)}), 500
 
+@app.route('/api/templates/<template_name>/rename', methods=['POST'])
+def rename_template(template_name):
+    try:
+        data = request.get_json()
+        novo_nome = data.get('novo_nome')
+
+        if not novo_nome:
+            return 'Nome do template não fornecido', 400
+
+        # Verifica se o template existe
+        template_path = os.path.join(TEMPLATES_DIR, f"{template_name}.html")
+        if not os.path.exists(template_path):
+            return 'Template não encontrado', 404
+
+        # Verifica se o novo nome já existe
+        novo_path = os.path.join(TEMPLATES_DIR, f"{novo_nome}.html")
+        if os.path.exists(novo_path):
+            return 'Já existe um template com este nome', 400
+
+        # Renomeia o arquivo do template
+        os.rename(template_path, novo_path)
+
+        # Atualiza as variáveis do template
+        vars_path = os.path.join('template_configs', 'template_variables.json')
+        if os.path.exists(vars_path):
+            with open(vars_path, 'r', encoding='utf-8') as f:
+                vars_data = json.load(f)
+
+            if template_name in vars_data:
+                vars_data[novo_nome] = vars_data.pop(template_name)
+
+                with open(vars_path, 'w', encoding='utf-8') as f:
+                    json.dump(vars_data, f, indent=4, ensure_ascii=False)
+
+        return jsonify({'message': 'Template renomeado com sucesso'})
+
+    except Exception as e:
+        print(f"Erro ao renomear template: {str(e)}")
+        return f'Erro ao renomear template: {str(e)}', 500
+
 if __name__ == '__main__':
     app.run(debug=True)
