@@ -6,11 +6,14 @@ import traceback
 from jinja2 import Environment, FileSystemLoader
 import shutil
 
-app = Flask(__name__)
+app = Flask(__name__,
+    template_folder='.',  # Define o diretório raiz como pasta de templates
+    static_folder='static'
+)
 
 # Configuração do Jinja2
 env = Environment(
-    loader=FileSystemLoader('templates'),
+    loader=FileSystemLoader(['templates', 'Front']),
     autoescape=True
 )
 
@@ -89,8 +92,12 @@ def listar_templates():
     """Lista todos os templates disponíveis."""
     templates_dir = 'templates'
     templates = []
+
+    # Lista de arquivos do sistema que devem ser ignorados
+    arquivos_sistema = ['templates.html', 'config.html', 'index.html','default.html']
+
     for filename in os.listdir(templates_dir):
-        if filename.endswith('.html'):
+        if filename.endswith('.html') and filename not in arquivos_sistema:
             template_name = filename.replace('.html', '')
             templates.append({
                 'nome': template_name,
@@ -108,14 +115,14 @@ def index():
 def templates():
     """Rota para a página de gerenciamento de templates."""
     templates_list = listar_templates()
-    return render_template('templates.html', templates=templates_list)
+    return render_template('Front/templates.html', templates=templates_list)
 
 @app.route('/config')
 def config():
     """Rota para a página de configurações."""
     variaveis = carregar_variaveis()
     config = carregar_config()
-    return render_template('config.html', variaveis=variaveis, config=config)
+    return render_template('Front/config.html', variaveis=variaveis, config=config)
 
 @app.route('/editor')
 def editor():
