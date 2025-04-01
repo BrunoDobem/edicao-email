@@ -224,13 +224,28 @@ textarea.form-control {
     z-index: 1;
 }
 
-.error-message {
-    padding: 15px;
-    margin-bottom: 20px;
-    border: 1px solid #dc3545;
+.reload-button {
+    margin-bottom: 15px;
+    background-color: #6c757d;
+    color: white;
+    border: none;
+    padding: 8px 15px;
     border-radius: 4px;
-    color: #dc3545;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.reload-button:hover {
+    background-color: #5a6268;
+}
+
+.error-message {
     background-color: #f8d7da;
+    color: #721c24;
+    padding: 10px;
+    margin-bottom: 15px;
+    border-radius: 4px;
+    border: 1px solid #f5c6cb;
 }
 
 @media (max-width: 1200px) {

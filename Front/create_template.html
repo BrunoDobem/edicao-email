@@ -1,0 +1,1041 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Criar Novo Template</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #f5f5f5;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+
+        .header h1 {
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            color: #666;
+        }
+
+        .form-section {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: #333;
+        }
+
+        input[type="text"],
+        textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-family: 'Inter', sans-serif;
+            font-size: 14px;
+        }
+
+        textarea {
+            min-height: 300px;
+            resize: vertical;
+        }
+
+        .button {
+            background-color: #3468fc;
+            color: #fff;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 500;
+            transition: background-color 0.2s;
+        }
+
+        .button:hover {
+            background-color: #2857d9;
+        }
+
+        .button.secondary {
+            background-color: #6c757d;
+        }
+
+        .button.secondary:hover {
+            background-color: #5a6268;
+        }
+
+        .variables-section {
+            margin-top: 20px;
+            padding: 20px;
+            background-color: #f8f9fa;
+            border-radius: 4px;
+        }
+
+        .variables-section h3 {
+            margin-bottom: 15px;
+            color: #333;
+        }
+
+        .variables-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .variable-item {
+            background-color: #fff;
+            padding: 15px;
+            border-radius: 8px;
+            border: 1px solid #ddd;
+            transition: all 0.2s ease;
+        }
+
+        .variable-item:hover {
+            border-color: #3468fc;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .variable-item label {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 0;
+            cursor: pointer;
+        }
+
+        .variable-item input[type="checkbox"] {
+            margin: 0;
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+        }
+
+        .variable-name {
+            font-weight: 500;
+            color: #333;
+        }
+
+        .variable-count {
+            background-color: #e9ecef;
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-size: 12px;
+            color: #666;
+        }
+
+        .variables-summary {
+            background-color: #fff;
+            padding: 15px;
+            border-radius: 8px;
+            border: 1px solid #ddd;
+            margin-bottom: 20px;
+        }
+
+        .variables-summary h4 {
+            margin-bottom: 10px;
+            color: #333;
+        }
+
+        .variables-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 10px;
+        }
+
+        .stat-item {
+            text-align: center;
+            padding: 10px;
+            background-color: #f8f9fa;
+            border-radius: 6px;
+        }
+
+        .stat-value {
+            font-size: 24px;
+            font-weight: 600;
+            color: #3468fc;
+        }
+
+        .stat-label {
+            font-size: 12px;
+            color: #666;
+            margin-top: 4px;
+        }
+
+        .variables-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .button.select-all {
+            background-color: #28a745;
+        }
+
+        .button.select-all:hover {
+            background-color: #218838;
+        }
+
+        .button.deselect-all {
+            background-color: #dc3545;
+        }
+
+        .button.deselect-all:hover {
+            background-color: #c82333;
+        }
+
+        .preview-section {
+            margin-top: 20px;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .preview-section h3 {
+            margin-bottom: 15px;
+            color: #333;
+        }
+
+        #previewFrame {
+            width: 100%;
+            height: 500px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+
+        .error-message {
+            color: #dc3545;
+            margin-top: 5px;
+            font-size: 14px;
+        }
+
+        .success-message {
+            color: #28a745;
+            margin-top: 5px;
+            font-size: 14px;
+        }
+
+        .variable-type {
+            font-size: 12px;
+            color: #666;
+            margin-left: 8px;
+            padding: 2px 6px;
+            border-radius: 4px;
+            background-color: #e9ecef;
+        }
+
+        .variable-type.text {
+            background-color: #e3f2fd;
+            color: #1976d2;
+        }
+
+        .variable-type.image {
+            background-color: #f3e5f5;
+            color: #7b1fa2;
+        }
+
+        .variable-type.url {
+            background-color: #e8f5e9;
+            color: #2e7d32;
+        }
+
+        .variable-type.price {
+            background-color: #fff3e0;
+            color: #f57c00;
+        }
+
+        .variable-type.date {
+            background-color: #fce4ec;
+            color: #c2185b;
+        }
+
+        .variable-type.number {
+            background-color: #e8eaf6;
+            color: #3f51b5;
+        }
+
+        .variable-type.other {
+            background-color: #f5f5f5;
+            color: #616161;
+        }
+
+        .variable-preview {
+            font-size: 12px;
+            color: #666;
+            margin-top: 4px;
+            font-style: italic;
+        }
+
+        .variable-group {
+            margin-bottom: 20px;
+        }
+
+        .variable-group-title {
+            font-size: 14px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 10px;
+            padding-bottom: 5px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .variable-name-input {
+            width: 100%;
+            padding: 6px 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 14px;
+            margin-top: 5px;
+        }
+
+        .variable-name-input:focus {
+            border-color: #3468fc;
+            outline: none;
+            box-shadow: 0 0 0 2px rgba(52, 104, 252, 0.1);
+        }
+
+        .variable-pattern {
+            font-size: 12px;
+            color: #666;
+            margin-top: 4px;
+            padding: 4px 8px;
+            background-color: #f8f9fa;
+            border-radius: 4px;
+            border: 1px dashed #ddd;
+        }
+
+        .pattern-example {
+            color: #28a745;
+            font-family: monospace;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Criar Novo Template</h1>
+            <p>Cole o HTML do seu template e o sistema identificará automaticamente as variáveis.</p>
+        </div>
+
+        <div class="form-section">
+            <div class="form-group">
+                <label for="templateName">Nome do Template</label>
+                <input type="text" id="templateName" placeholder="Ex: template4">
+            </div>
+
+            <div class="form-group">
+                <label for="templateDescription">Descrição do Template</label>
+                <input type="text" id="templateDescription"
+                    placeholder="Ex: Template para promoção de pacotes turísticos">
+            </div>
+
+            <div class="form-group">
+                <label for="templateHTML">HTML do Template</label>
+                <textarea id="templateHTML" placeholder="Cole o HTML do seu template aqui..."></textarea>
+            </div>
+
+            <button class="button" onclick="identifyVariables()">Identificar Variáveis</button>
+        </div>
+
+        <div class="variables-section" id="variablesSection" style="display: none;">
+            <h3>Variáveis Identificadas</h3>
+            <div class="variables-summary">
+                <h4>Resumo das Variáveis</h4>
+                <div class="variables-stats">
+                    <div class="stat-item">
+                        <div class="stat-value" id="totalVariables">0</div>
+                        <div class="stat-label">Total de Variáveis</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value" id="selectedVariables">0</div>
+                        <div class="stat-label">Variáveis Selecionadas</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value" id="textVariables">0</div>
+                        <div class="stat-label">Variáveis de Texto</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value" id="imageVariables">0</div>
+                        <div class="stat-label">Variáveis de Imagem</div>
+                    </div>
+                </div>
+            </div>
+            <div class="pattern-info">
+                <h4>Padrões de Nomenclatura</h4>
+                <div class="variable-pattern">
+                    <strong>Imagens:</strong>
+                    <span class="pattern-example">logo_url</span> e <span class="pattern-example">logo_alt</span> para
+                    logos,
+                    <span class="pattern-example">banner_url</span> e <span class="pattern-example">banner_alt</span>
+                    para banners
+                </div>
+                <div class="variable-pattern">
+                    <strong>Textos:</strong>
+                    <span class="pattern-example">titulo</span> para títulos,
+                    <span class="pattern-example">mensagem_principal</span> para textos principais,
+                    <span class="pattern-example">descricao</span> para descrições
+                </div>
+                <div class="variable-pattern">
+                    <strong>Links:</strong>
+                    <span class="pattern-example">botao_url</span> para URLs,
+                    <span class="pattern-example">botao_texto</span> para textos de botões
+                </div>
+            </div>
+            <p>Selecione e edite as variáveis que deseja incluir no template:</p>
+            <div class="variables-list" id="variablesList"></div>
+            <div class="variables-actions">
+                <button class="button select-all" onclick="selectAllVariables()">Selecionar Todas</button>
+                <button class="button deselect-all" onclick="deselectAllVariables()">Desselecionar Todas</button>
+                <button class="button" onclick="createTemplate()">Criar Template</button>
+                <button class="button secondary" onclick="window.location.href='/'">Cancelar</button>
+            </div>
+        </div>
+
+        <div class="preview-section" id="previewSection" style="display: none;">
+            <h3>Preview do Template</h3>
+            <iframe id="previewFrame" srcdoc=""></iframe>
+        </div>
+    </div>
+
+    <script>
+        let identifiedVariables = [];
+        let variableOccurrences = {};
+        let variableTypes = {};
+
+        function identifyVariables() {
+            const html = document.getElementById('templateHTML').value;
+            const variables = new Set();
+            variableOccurrences = {};
+            variableTypes = {};
+            let updatedHTML = html;
+
+            // Tratamento do TrackLink
+            updatedHTML = updatedHTML.replace(/href=\s*\{\{TrackLink\s+"([^"]+)"\}\}/g, (match, url) => {
+                variables.add('link_url');
+                variableOccurrences['link_url'] = (variableOccurrences['link_url'] || 0) + 1;
+                return `href="{{link_url}}"`;
+            });
+
+            // Cria um DOM parser para analisar o HTML
+            const parser = new DOMParser();
+            const doc = parser.parseFromString(updatedHTML, 'text/html');
+
+            // Procura por todos os textos em paragráfos e spans
+            const ofertaRegex = /Com essa oferta especial[^<]*/i;
+            if (ofertaRegex.test(updatedHTML)) {
+                variables.add('texto_oferta');
+                variableOccurrences['texto_oferta'] = 1;
+
+                // Cria um regex que capture a tag completa
+                updatedHTML = updatedHTML.replace(
+                    /(<p[^>]*>)(.*?Com essa oferta especial.*?)(<\/p>)/gi,
+                    (match, openTag, content, closeTag) => {
+                        return `${openTag}{{texto_oferta}}${closeTag}`;
+                    }
+                );
+            }
+
+            // Procura e substitui textos em h1, h2, h3, p e div
+            doc.querySelectorAll('h1, h2, h3, p, div').forEach((element, index) => {
+                // Ignora divs que são apenas containers ou elementos vazios
+                if (element.tagName.toLowerCase() === 'div' && (!element.textContent.trim() || element.children.length > 1)) {
+                    return;
+                }
+
+                // Ignora elementos que já têm variáveis
+                if (element.innerHTML.includes('{{') && element.innerHTML.includes('}}')) {
+                    return;
+                }
+
+                const text = element.textContent.trim();
+                if (text && !text.includes('{{')) {
+                    let varName;
+
+                    // Identificação específica para textos conhecidos
+                    if (text.toLowerCase().includes('com essa oferta especial')) {
+                        varName = 'texto_oferta';
+                    } else if (element.tagName.toLowerCase() === 'h1') {
+                        varName = 'titulo';
+                    } else if (text.toLowerCase().includes('imagine assistir')) {
+                        varName = 'texto_descricao';
+                    } else if (text.toLowerCase().includes('o presente perfeito')) {
+                        varName = 'texto_chamada';
+                    } else {
+                        varName = `texto${index + 1}`;
+                    }
+
+                    variables.add(varName);
+                    variableOccurrences[varName] = 1;
+
+                    // Substitui o texto no HTML preservando as tags internas
+                    // Usamos o outerHTML para pegar toda a tag
+                    const elementHtml = element.outerHTML;
+
+                    // Criamos uma versão escapada para usar no regex
+                    const escapedText = text.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+
+                    // Usamos regex com modificador 's' para incluir quebras de linha
+                    const textPattern = new RegExp(`(${escapedText})`, 's');
+
+                    // Verificamos se o elemento tem conteúdo HTML com tags ou apenas texto
+                    if (element.innerHTML.trim() !== text) {
+                        // Se o texto é diferente do innerHTML, precisamos ser mais cuidadosos com a substituição
+                        const newElementHtml = elementHtml.replace(element.innerHTML, `{{${varName}}}`);
+                        updatedHTML = updatedHTML.replace(elementHtml, newElementHtml);
+                    } else {
+                        // Se o texto é igual ao innerHTML, podemos substituir diretamente
+                        const newElementHtml = elementHtml.replace(textPattern, `{{${varName}}}`);
+                        updatedHTML = updatedHTML.replace(elementHtml, newElementHtml);
+                    }
+                }
+            });
+
+            // Procura e substitui todas as imagens, mesmo as aninhadas
+            // Novo regex que detecta todas as tags IMG independentemente da ordem dos atributos
+            const imgRegex = /<img\s+[^>]*>/gi;
+            let imgMatch;
+            let imgCounter = 1;
+
+            while ((imgMatch = imgRegex.exec(updatedHTML)) !== null) {
+                const fullImgTag = imgMatch[0];
+
+                // Extrai src e alt usando regex específicos
+                const srcMatch = fullImgTag.match(/src=["']([^"']+)["']/i);
+                const altMatch = fullImgTag.match(/alt=["']([^"']+)["']/i);
+                const titleMatch = fullImgTag.match(/title=["']([^"']+)["']/i);
+
+                if (!srcMatch) continue; // Pula se não tem src
+
+                const imgSrc = srcMatch[1];
+                const imgAlt = altMatch ? altMatch[1] : '';
+
+                let urlVarName, altVarName;
+
+                // Identificação específica para imagens conhecidas
+                if (imgSrc.toLowerCase().includes('logo') || imgAlt.toLowerCase().includes('logo')) {
+                    urlVarName = 'logo_url';
+                    altVarName = 'logo_alt';
+                } else if (imgSrc.toLowerCase().includes('topo') || imgAlt.toLowerCase().includes('topo') ||
+                    imgSrc.toLowerCase().includes('weekend') || imgSrc.toLowerCase().includes('valentines')) {
+                    urlVarName = 'banner_topo_url';
+                    altVarName = 'banner_topo_alt';
+                } else if (imgSrc.toLowerCase().includes('valentine') || imgSrc.toLowerCase().includes('atenas') ||
+                    imgSrc.toLowerCase().includes('pacote') || imgAlt.toLowerCase().includes('pacote')) {
+                    urlVarName = 'banner_oferta_url';
+                    altVarName = 'banner_oferta_alt';
+                } else {
+                    urlVarName = `imagem${imgCounter}_url`;
+                    altVarName = `imagem${imgCounter}_alt`;
+                    imgCounter++;
+                }
+
+                variables.add(urlVarName);
+                variableOccurrences[urlVarName] = 1;
+
+                let newImgTag = fullImgTag.replace(/src=["']([^"']+)["']/i, `src="{{${urlVarName}}}"`);
+
+                // Só adiciona o alt como variável se ele existir no tag original
+                if (altMatch) {
+                    variables.add(altVarName);
+                    variableOccurrences[altVarName] = 1;
+                    newImgTag = newImgTag.replace(/alt=["']([^"']+)["']/i, `alt="{{${altVarName}}}"`);
+                }
+
+                // Também substitui title se existir
+                if (titleMatch) {
+                    newImgTag = newImgTag.replace(/title=["']([^"']+)["']/i, `title="{{${altVarName}}}"`);
+                }
+
+                updatedHTML = updatedHTML.replace(fullImgTag, newImgTag);
+            }
+
+            // Procura e substitui links
+            doc.querySelectorAll('a').forEach((a, index) => {
+                if (!a.href.includes('{{')) {
+                    const varName = 'link_url';
+                    variables.add(varName);
+                    variableOccurrences[varName] = (variableOccurrences[varName] || 0) + 1;
+
+                    // Substitui o href no HTML preservando a tag a
+                    const linkHtml = a.outerHTML;
+                    const newLinkHtml = linkHtml.replace(
+                        /href=["']([^"']+)["']/,
+                        `href="{{${varName}}}"`
+                    );
+                    updatedHTML = updatedHTML.replace(linkHtml, newLinkHtml);
+                }
+            });
+
+            // Atualiza o HTML no textarea com as variáveis substituídas
+            document.getElementById('templateHTML').value = updatedHTML;
+
+            identifiedVariables = Array.from(variables);
+            displayVariables(identifiedVariables);
+            updateVariablesSummary();
+            showReplacementSuggestions(updatedHTML, identifiedVariables);
+
+            // Atualiza o preview
+            const previewSection = document.getElementById('previewSection');
+            const previewFrame = document.getElementById('previewFrame');
+            previewFrame.srcdoc = updatedHTML;
+            previewSection.style.display = 'block';
+        }
+
+        function showReplacementSuggestions(html, variables) {
+            const suggestions = [];
+            const parser = new DOMParser();
+            const doc = parser.parseFromString(html, 'text/html');
+
+            // Sugestões para imagens
+            doc.querySelectorAll('img').forEach((img, index) => {
+                if (!img.src.includes('{{')) {
+                    let urlVarName, altVarName;
+
+                    if (img.src.toLowerCase().includes('logo') || img.alt.toLowerCase().includes('logo')) {
+                        urlVarName = 'logo_url';
+                        altVarName = 'logo_alt';
+                    } else if (img.src.toLowerCase().includes('banner') || img.alt.toLowerCase().includes('banner')) {
+                        urlVarName = 'banner_url';
+                        altVarName = 'banner_alt';
+                    } else {
+                        urlVarName = `imagem${index + 1}_url`;
+                        altVarName = `imagem${index + 1}_alt`;
+                    }
+
+                    suggestions.push({
+                        original: `src="${img.src}"`,
+                        suggested: `src="{{${urlVarName}}}"`,
+                        type: 'image'
+                    });
+
+                    if (img.alt && !img.alt.includes('{{')) {
+                        suggestions.push({
+                            original: `alt="${img.alt}"`,
+                            suggested: `alt="{{${altVarName}}}"`,
+                            type: 'image'
+                        });
+                    }
+                }
+            });
+
+            // Sugestões para links
+            doc.querySelectorAll('a').forEach((a, index) => {
+                if (!a.href.includes('{{')) {
+                    suggestions.push({
+                        original: `href="${a.href}"`,
+                        suggested: `href="{{link_url}}"`,
+                        type: 'link'
+                    });
+                }
+            });
+
+            // Sugestões para textos
+            doc.querySelectorAll('h1, p').forEach((element, index) => {
+                if (!element.innerHTML.includes('{{')) {
+                    const varName = element.tagName.toLowerCase() === 'h1' ? 'titulo' : `texto${index + 1}`;
+                    suggestions.push({
+                        original: element.innerHTML,
+                        suggested: `{{${varName}}}`,
+                        type: 'text'
+                    });
+                }
+            });
+
+            // Exibe as sugestões
+            if (suggestions.length > 0) {
+                const suggestionsDiv = document.createElement('div');
+                suggestionsDiv.className = 'suggestions-section';
+                suggestionsDiv.innerHTML = `
+                    <h4>Sugestões de Substituição</h4>
+                    <div class="suggestions-list">
+                        ${suggestions.map(s => `
+                            <div class="suggestion-item">
+                                <div class="suggestion-original">Original: ${s.original}</div>
+                                <div class="suggestion-arrow">→</div>
+                                <div class="suggestion-new">Sugerido: ${s.suggested}</div>
+                            </div>
+                        `).join('')}
+                    </div>
+                `;
+
+                // Remove sugestões anteriores se existirem
+                const oldSuggestions = document.querySelector('.suggestions-section');
+                if (oldSuggestions) {
+                    oldSuggestions.remove();
+                }
+
+                // Adiciona as novas sugestões
+                document.getElementById('variablesSection').appendChild(suggestionsDiv);
+            }
+        }
+
+        function identifyVariableType(variable, html) {
+            const varNameLower = variable.toLowerCase();
+
+            // Identificação mais específica para links
+            if (varNameLower.includes('link') || varNameLower.includes('url') || varNameLower.includes('href')) {
+                if (varNameLower.includes('topo') || varNameLower.includes('header')) {
+                    return 'link_topo';
+                }
+                if (varNameLower.includes('botao') || varNameLower.includes('button')) {
+                    return 'link_botao';
+                }
+                if (varNameLower.includes('rodape') || varNameLower.includes('footer')) {
+                    return 'link_rodape';
+                }
+                return 'link';
+            }
+
+            // Identificação mais específica para imagens
+            if (varNameLower.includes('image') || varNameLower.includes('img') ||
+                varNameLower.includes('logo') || varNameLower.includes('banner') ||
+                varNameLower.includes('foto') || varNameLower.includes('imagem') ||
+                varNameLower.includes('_url') || varNameLower.includes('_alt')) {
+
+                if (varNameLower.includes('logo')) {
+                    return 'imagem_logo';
+                }
+                if (varNameLower.includes('banner')) {
+                    return 'imagem_banner';
+                }
+                if (varNameLower.includes('produto')) {
+                    return 'imagem_produto';
+                }
+                if (varNameLower.includes('destaque')) {
+                    return 'imagem_destaque';
+                }
+                return 'imagem';
+            }
+
+            // Outros tipos mantidos como estavam
+            if (varNameLower.includes('titulo') || varNameLower.startsWith('h1')) {
+                return 'title';
+            }
+            if (varNameLower.includes('texto') || varNameLower.startsWith('p')) {
+                return 'text';
+            }
+
+            // Verifica o contexto no HTML
+            const patterns = {
+                link_topo: new RegExp(`href=["'].*?\\{\\{${variable}\\}\\}.*?["'].*?(header|topo|menu)`, 'i'),
+                link_botao: new RegExp(`href=["'].*?\\{\\{${variable}\\}\\}.*?["'].*?(button|botao|cta)`, 'i'),
+                link_rodape: new RegExp(`href=["'].*?\\{\\{${variable}\\}\\}.*?["'].*?(footer|rodape)`, 'i'),
+                imagem_logo: new RegExp(`src=["'].*?\\{\\{${variable}\\}\\}.*?["'].*?(logo|brand)`, 'i'),
+                imagem_banner: new RegExp(`src=["'].*?\\{\\{${variable}\\}\\}.*?["'].*?(banner|hero|destaque)`, 'i'),
+                imagem_produto: new RegExp(`src=["'].*?\\{\\{${variable}\\}\\}.*?["'].*?(produto|item|product)`, 'i')
+            };
+
+            for (const [type, pattern] of Object.entries(patterns)) {
+                if (pattern.test(html)) return type;
+            }
+
+            return 'text';
+        }
+
+        function getSuggestedName(variable, type) {
+            const varLower = variable.toLowerCase();
+
+            // Identificação de imagens e seus atributos
+            if (varLower.includes('imagem') || varLower.includes('img') ||
+                varLower.includes('logo') || varLower.includes('banner')) {
+
+                // Identificação específica para logo
+                if (varLower.includes('logo')) {
+                    return varLower.includes('alt') ? 'logo_alt' : 'logo_url';
+                }
+
+                // Identificação específica para banner
+                if (varLower.includes('banner')) {
+                    return varLower.includes('alt') ? 'banner_alt' : 'banner_url';
+                }
+
+                // Identificação para outras imagens
+                const match = varLower.match(/imagem(\d+)/);
+                if (match) {
+                    const num = match[1];
+                    return varLower.includes('alt') ? `imagem${num}_alt` : `imagem${num}_url`;
+                }
+            }
+
+            // Identificação de links
+            if (type === 'link' || type.startsWith('link_')) {
+                if (varLower.includes('track') || varLower.includes('url')) {
+                    return 'link_url';
+                }
+                if (varLower.includes('botao')) {
+                    return 'link_botao';
+                }
+                return 'link_url';
+            }
+
+            // Identificação de textos
+            if (type === 'text') {
+                if (varLower.includes('titulo')) return 'titulo';
+                if (varLower.includes('descricao')) return 'descricao';
+                if (varLower.includes('principal')) return 'texto_principal';
+                return 'texto';
+            }
+
+            return variable;
+        }
+
+        function getVariableTypeLabel(type) {
+            const labels = {
+                'text': 'Texto',
+                'imagem': 'Imagem',
+                'imagem_logo': 'Logo',
+                'imagem_banner': 'Banner',
+                'imagem_produto': 'Imagem de Produto',
+                'imagem_destaque': 'Imagem de Destaque',
+                'link': 'Link',
+                'link_topo': 'Link do Topo',
+                'link_botao': 'Link de Botão',
+                'link_rodape': 'Link do Rodapé',
+                'price': 'Preço',
+                'date': 'Data',
+                'number': 'Número',
+                'other': 'Outro'
+            };
+            return labels[type] || 'Outro';
+        }
+
+        function displayVariables(variables) {
+            const variablesList = document.getElementById('variablesList');
+            variablesList.innerHTML = '';
+
+            // Organiza as variáveis por tipo
+            const groups = {
+                'Texto': [],
+                'Link': [],
+                'Logo': [],
+                'Banner': [],
+                'Imagem': [],
+                'Outro': []
+            };
+
+            variables.forEach(variable => {
+                const varLower = variable.toLowerCase();
+                let group = 'Outro';
+                let suggestedName = '';
+
+                // Classificação e sugestão de nomes
+                if (varLower.includes('logo')) {
+                    group = 'Logo';
+                    suggestedName = varLower.includes('alt') ? 'logo_alt' : 'logo_url';
+                } else if (varLower.includes('banner')) {
+                    group = 'Banner';
+                    suggestedName = varLower.includes('alt') ? 'banner_alt' : 'banner_url';
+                } else if (varLower.includes('imagem')) {
+                    group = 'Imagem';
+                    const match = varLower.match(/imagem(\d+)/);
+                    if (match) {
+                        const num = match[1];
+                        suggestedName = varLower.includes('alt') ? `imagem${num}_alt` : `imagem${num}_url`;
+                    }
+                } else if (varLower.includes('link') || varLower.includes('url') || varLower.includes('href')) {
+                    group = 'Link';
+                    suggestedName = 'link_url';
+                } else if (varLower.includes('texto') || varLower.includes('titulo') || varLower.includes('descricao')) {
+                    group = 'Texto';
+                    suggestedName = varLower.includes('titulo') ? 'titulo' :
+                        varLower.includes('descricao') ? 'descricao' : 'texto';
+                }
+
+                groups[group].push({
+                    original: variable,
+                    suggested: suggestedName || variable,
+                    occurrences: variableOccurrences[variable]
+                });
+            });
+
+            // Cria os grupos na interface
+            Object.entries(groups).forEach(([groupName, groupVariables]) => {
+                if (groupVariables.length === 0) return;
+
+                const groupDiv = document.createElement('div');
+                groupDiv.className = 'variable-group';
+
+                const title = document.createElement('div');
+                title.className = 'variable-group-title';
+                title.textContent = groupName;
+                groupDiv.appendChild(title);
+
+                groupVariables.forEach(({ original, suggested, occurrences }) => {
+                    const div = document.createElement('div');
+                    div.className = 'variable-item';
+                    div.innerHTML = `
+                        <label>
+                            <input type="checkbox" value="${original}" checked onchange="updateVariablesSummary()">
+                            <span class="variable-type ${groupName.toLowerCase()}">${groupName}</span>
+                            <span class="variable-count">${occurrences} ocorrência${occurrences > 1 ? 's' : ''}</span>
+                        </label>
+                        <input type="text"
+                               class="variable-name-input"
+                               value="${suggested}"
+                               placeholder="Nome da variável"
+                               data-original="${original}"
+                               onchange="updateVariableName(this)">
+                        <div class="variable-preview">Exemplo: ${getVariablePreview(original, groupName.toLowerCase())}</div>
+                    `;
+                    groupDiv.appendChild(div);
+                });
+
+                variablesList.appendChild(groupDiv);
+            });
+
+            document.getElementById('variablesSection').style.display = 'block';
+            updateVariablesSummary();
+        }
+
+        function getVariablePreview(variable, type) {
+            const previews = {
+                'texto': 'Texto de exemplo',
+                'link': 'https://exemplo.com/link',
+                'logo': 'https://exemplo.com/logo.png',
+                'banner': 'https://exemplo.com/banner.jpg',
+                'imagem': 'https://exemplo.com/imagem.jpg'
+            };
+            return previews[type] || 'Valor de exemplo';
+        }
+
+        function updateVariableName(input) {
+            const originalName = input.dataset.original;
+            const newName = input.value;
+
+            // Atualiza o valor do checkbox correspondente
+            const checkbox = input.parentElement.querySelector('input[type="checkbox"]');
+            checkbox.value = newName;
+        }
+
+        function updateVariablesSummary() {
+            const totalVariables = identifiedVariables.length;
+            const selectedVariables = document.querySelectorAll('#variablesList input:checked').length;
+            const textVariables = Object.values(variableTypes).filter(type => type === 'text').length;
+            const imageVariables = Object.values(variableTypes).filter(type => type === 'image').length;
+
+            document.getElementById('totalVariables').textContent = totalVariables;
+            document.getElementById('selectedVariables').textContent = selectedVariables;
+            document.getElementById('textVariables').textContent = textVariables;
+            document.getElementById('imageVariables').textContent = imageVariables;
+        }
+
+        function selectAllVariables() {
+            document.querySelectorAll('#variablesList input[type="checkbox"]').forEach(checkbox => {
+                checkbox.checked = true;
+            });
+            updateVariablesSummary();
+        }
+
+        function deselectAllVariables() {
+            document.querySelectorAll('#variablesList input[type="checkbox"]').forEach(checkbox => {
+                checkbox.checked = false;
+            });
+            updateVariablesSummary();
+        }
+
+        async function createTemplate() {
+            const templateName = document.getElementById('templateName').value;
+            const templateDescription = document.getElementById('templateDescription').value;
+            let templateHTML = document.getElementById('templateHTML').value;
+
+            if (!templateName || !templateDescription || !templateHTML) {
+                alert('Por favor, preencha todos os campos obrigatórios.');
+                return;
+            }
+
+            // Coleta as variáveis com seus novos nomes
+            const selectedVariables = Array.from(document.querySelectorAll('#variablesList input[type="checkbox"]:checked'))
+                .map(checkbox => {
+                    const input = checkbox.closest('.variable-item').querySelector('.variable-name-input');
+                    return input.value;
+                });
+
+            // Garante que todas as variáveis estejam no formato {{variavel}}
+            document.querySelectorAll('#variablesList .variable-item').forEach(item => {
+                const checkbox = item.querySelector('input[type="checkbox"]');
+                if (checkbox.checked) {
+                    const originalName = item.querySelector('.variable-name-input').dataset.original;
+                    const newName = item.querySelector('.variable-name-input').value;
+
+                    // Substitui mantendo as aspas e espaços originais
+                    const regex = new RegExp(`(["'])\\{\\{\\s*${originalName}\\s*\\}\\}\\1|\\{\\{\\s*${originalName}\\s*\\}\\}`, 'g');
+                    templateHTML = templateHTML.replace(regex, (match, quote) => {
+                        if (quote) {
+                            return `${quote}{{${newName}}}${quote}`;
+                        }
+                        return `{{${newName}}}`;
+                    });
+                }
+            });
+
+            const templateData = {
+                name: templateName,
+                description: templateDescription,
+                html: templateHTML,
+                variables: selectedVariables
+            };
+
+            try {
+                const response = await fetch('/api/templates', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(templateData)
+                });
+
+                if (response.ok) {
+                    alert('Template criado com sucesso!');
+                    window.location.href = '/';
+                } else {
+                    const error = await response.json();
+                    alert('Erro ao criar template: ' + error.message);
+                }
+            } catch (error) {
+                console.error('Erro:', error);
+                alert('Erro ao criar template. Verifique o console para mais detalhes.');
+            }
+        }
+    </script>
+</body>
+
+</html>

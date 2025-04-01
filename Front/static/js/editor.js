@@ -69,6 +69,26 @@ const exampleData = {
     botao_texto: "Ver Pacote Completo"
 };
 
+// Adiciona exemplos para variáveis genéricas encontradas em novos templates
+const genericExamples = {
+    texto: "Texto de exemplo para o template",
+    texto_oferta: "Com essa oferta especial, você garante pacotes a partir de R$ 2.958, sem taxas e com até 60% em Hurb Créditos!",
+    texto_chamada: "O presente perfeito para o Valentine's Day está aqui! ✈️👇",
+    texto_descricao: "Imagine assistir ao pôr do sol em Santorini, explorar as belezas de Atenas e viver dias inesquecíveis ao lado de quem você ama…",
+    descricao: "Descrição detalhada da oferta ou promoção atual",
+    banner_topo_url: "https://exemplo.com/banner-topo.jpg",
+    banner_topo_alt: "Banner do topo da página",
+    banner_url: "https://exemplo.com/banner-oferta.jpg",
+    banner_alt: "Banner com oferta especial",
+    link_url: "https://exemplo.com/promocao-especial",
+    imagem1_url: "https://exemplo.com/imagem1.jpg",
+    imagem1_alt: "Descrição da imagem 1",
+    imagem2_url: "https://exemplo.com/imagem2.jpg",
+    imagem2_alt: "Descrição da imagem 2",
+    imagem3_url: "https://exemplo.com/imagem3.jpg",
+    imagem3_alt: "Descrição da imagem 3"
+};
+
 // Função para carregar as variáveis do template
 async function loadTemplateVariables(templateName) {
     try {
@@ -98,11 +118,80 @@ async function loadTemplateVariables(templateName) {
 
 // Função para preencher um campo com valor de exemplo
 function fillFieldWithExample(field, value) {
-    if (field && value !== undefined) {
-        field.value = value;
-        // Dispara um evento de input para atualizar o preview
-        field.dispatchEvent(new Event('input'));
+    if (!field) return;
+
+    // Se um valor específico não foi encontrado no exampleData, tenta usar um genérico
+    if (value === undefined) {
+        const fieldName = field.name;
+
+        // Extrai a parte base e o número (se houver)
+        const match = fieldName.match(/^([a-zA-Z_]+)(\d*)$/);
+        const baseName = match ? match[1] : fieldName;
+        const numberSuffix = match ? match[2] : '';
+
+        // Tenta encontrar um exemplo genérico, começando pelo nome exato
+        let foundExample = false;
+
+        // Primeiro tenta pelo nome exato
+        for (const [pattern, exampleValue] of Object.entries(genericExamples)) {
+            if (fieldName === pattern) {
+                value = exampleValue;
+                foundExample = true;
+                break;
+            }
+        }
+
+        // Se não encontrou, tenta pelo nome base
+        if (!foundExample) {
+            for (const [pattern, exampleValue] of Object.entries(genericExamples)) {
+                if (baseName === pattern) {
+                    // Se for texto, adiciona o número para diferenciar
+                    if (baseName.includes('texto') || baseName.includes('titulo')) {
+                        value = `${exampleValue}${numberSuffix ? ` #${numberSuffix}` : ''}`;
+                    } else {
+                        value = exampleValue;
+                    }
+                    foundExample = true;
+                    break;
+                }
+            }
+        }
+
+        // Se ainda não encontrou, tenta por inclusão
+        if (!foundExample) {
+            for (const [pattern, exampleValue] of Object.entries(genericExamples)) {
+                if (fieldName.includes(pattern)) {
+                    if (pattern.includes('texto') || pattern.includes('titulo')) {
+                        value = `${exampleValue}${numberSuffix ? ` #${numberSuffix}` : ''}`;
+                    } else {
+                        value = exampleValue;
+                    }
+                    foundExample = true;
+                    break;
+                }
+            }
+        }
+
+        // Se ainda não tem valor, usa um padrão baseado no tipo
+        if (value === undefined) {
+            if (fieldName.includes('url') || fieldName.includes('image')) {
+                value = `https://exemplo.com/${fieldName}.jpg`;
+            } else if (fieldName.includes('alt')) {
+                value = `Descrição para ${fieldName}`;
+            } else if (fieldName.includes('titulo')) {
+                value = `Título ${numberSuffix || ''}: ${baseName}`;
+            } else if (fieldName.includes('texto')) {
+                value = `Texto exemplo ${numberSuffix || ''}: ${baseName}`;
+            } else {
+                value = `Valor para ${fieldName}`;
+            }
+        }
     }
+
+    field.value = value;
+
+    // Dispara um evento de input para atualizar o preview
+    field.dispatchEvent(new Event('input'));
 }
 
 // Função para criar campos dinâmicos baseados nas variáveis
@@ -127,59 +216,84 @@ function createDynamicFields(variables) {
     // Cria um objeto para agrupar as variáveis
     const groups = {};
 
-    // Agrupa variáveis simples
-    variables.forEach(variable => {
-        if (!variable.includes('.') && !['destino1', 'destino2', 'destino3', 'destino4'].includes(variable)) {
-            if (!groups['geral']) groups['geral'] = [];
-            groups['geral'].push(variable);
-        }
-    });
+    // Mapa de prefixos conhecidos para nomes de grupos
+    const prefixesMap = {
+        'logo': 'logos',
+        'banner': 'banners',
+        'imagem': 'imagens',
+        'titulo': 'títulos',
+        'texto': 'textos',
+        'link': 'links',
+        'botao': 'botões'
+    };
 
-    // Agrupa destinos
-    for (let i = 1; i <= 4; i++) {
-        const destino = `destino${i}`;
-        if (variables.includes(destino)) {
-            if (!groups[destino]) groups[destino] = [];
-            // Adiciona as subvariáveis padrão para destinos
-            const subVariables = [
-                'titulo',
-                'descricao',
-                'link',
-                'imagem_url',
-                'imagem_alt',
-                'preco',
-                'dias'
-            ];
-            groups[destino].push(...subVariables);
+    // Processa e agrupa variáveis, removendo os números do final para agrupar corretamente
+    variables.forEach(variable => {
+        // Verifica se é uma variável aninhada
+        if (variable.includes('.')) {
+            const [parent, child] = variable.split('.');
+            // Remove os números do final do nome do pai para agrupamento
+            const baseParent = parent.replace(/\d+$/, '');
+
+            if (!groups[baseParent]) {
+                groups[baseParent] = [];
+            }
+
+            // Mantém o nome original completo para o campo
+            groups[baseParent].push(variable);
+            return;
         }
-    }
+
+        // Para variáveis simples, tentamos determinar o grupo base
+        // Removendo qualquer número do final (texto1, texto2 -> texto)
+        const baseVariable = variable.replace(/\d+$/, '');
+
+        // Identifica o grupo apropriado
+        let group = 'geral';
+
+        for (const [prefix, groupName] of Object.entries(prefixesMap)) {
+            if (baseVariable.toLowerCase().startsWith(prefix)) {
+                group = groupName;
+                break;
+            }
+        }
+
+        // Também verifica se é um destino conhecido
+        if (baseVariable.startsWith('destino')) {
+            const destNum = baseVariable.substring(7);
+            group = `destino${destNum}`;
+        }
+
+        // Inicializa o grupo se necessário
+        if (!groups[group]) {
+            groups[group] = [];
+        }
+
+        // Adiciona a variável ao grupo, mantendo o nome original com número
+        groups[group].push(variable);
+    });
 
     console.log('[Debug] Grupos de variáveis:', groups);
 
     // Cria as seções de campos
+    // Primeiro, processa "geral" se existir
+    if (groups['geral']) {
+        createFieldsSection(formContainer, 'Configurações Gerais', groups['geral']);
+    }
+
+    // Depois, processa os outros grupos
     Object.entries(groups).forEach(([group, vars]) => {
-        const section = document.createElement('div');
-        section.className = 'form-section';
-
-        const title = group === 'geral' ? 'Configurações Gerais' :
-            group.charAt(0).toUpperCase() + group.slice(1);
-
-        section.innerHTML = `<h3>${title}</h3>`;
-
-        vars.forEach(variable => {
-            const field = createField(group === 'geral' ? variable : `${group}.${variable}`);
-            section.appendChild(field);
-
-            // Preenche o campo com dados de exemplo
-            const input = field.querySelector('input, textarea');
-            if (group === 'geral') {
-                fillFieldWithExample(input, exampleData[variable]);
+        if (group !== 'geral') {
+            // Formata o título do grupo
+            let title;
+            if (group.startsWith('destino')) {
+                title = `Destino ${group.substring(7)}`;
             } else {
-                fillFieldWithExample(input, exampleData[group]?.[variable]);
+                title = group.charAt(0).toUpperCase() + group.slice(1);
             }
-        });
 
-        formContainer.appendChild(section);
+            createFieldsSection(formContainer, title, vars);
+        }
     });
 
     // Adiciona event listeners para atualização automática
@@ -190,6 +304,31 @@ function createDynamicFields(variables) {
 
     // Gera o preview inicial
     generatePreview();
+}
+
+// Função auxiliar para criar uma seção de campos
+function createFieldsSection(container, title, variables) {
+    const section = document.createElement('div');
+    section.className = 'form-section';
+    section.innerHTML = `<h3>${title}</h3>`;
+
+    variables.forEach(variable => {
+        const field = createField(variable);
+        section.appendChild(field);
+
+        // Preenche o campo com dados de exemplo
+        const input = field.querySelector('input, textarea');
+
+        // Lógica de preenchimento para variáveis aninhadas e simples
+        if (variable.includes('.')) {
+            const [parent, child] = variable.split('.');
+            fillFieldWithExample(input, exampleData[parent]?.[child]);
+        } else {
+            fillFieldWithExample(input, exampleData[variable]);
+        }
+    });
+
+    container.appendChild(section);
 }
 
 // Função auxiliar para criar um campo individual
@@ -227,26 +366,67 @@ async function generatePreview() {
     const formData = {};
     const form = document.getElementById('editorForm');
 
+    if (!form || form.elements.length === 0) {
+        console.error('[Debug] Formulário vazio ou não encontrado!');
+        return;
+    }
+
     // Coleta os valores dos campos
     Array.from(form.elements).forEach(element => {
-        if (element.name) {
+        if (element.name && element.tagName !== 'BUTTON') {
             const parts = element.name.split('.');
             if (parts.length > 1) {
                 // Variável aninhada (ex: destino1.titulo)
                 if (!formData[parts[0]]) formData[parts[0]] = {};
-                formData[parts[0]][parts[1]] = element.value;
+                formData[parts[0]][parts[1]] = element.value || '';
+                console.log(`[Debug] Coletando variável aninhada: ${parts[0]}.${parts[1]} = ${element.value.substring(0, 30) + (element.value.length > 30 ? '...' : '')}`);
             } else {
                 // Variável simples
-                formData[element.name] = element.value;
+                formData[element.name] = element.value || '';
+                console.log(`[Debug] Coletando variável: ${element.name} = ${element.value.substring(0, 30) + (element.value.length > 30 ? '...' : '')}`);
             }
-            console.log(`[Debug] Campo ${element.name}:`, element.value);
+
+            // Registra valores vazios para depuração
+            if (!element.value) {
+                console.warn(`[Debug] Campo vazio: ${element.name}`);
+            }
         }
     });
 
+    // Verifica se temos dados para enviar
+    if (Object.keys(formData).length === 0) {
+        console.error('[Debug] Nenhum dado coletado do formulário!');
+        return;
+    }
+
     try {
         const templateName = document.getElementById('templateSelect').value;
+        if (!templateName) {
+            console.error('[Debug] Nome do template não encontrado!');
+            return;
+        }
+
         console.log('[Debug] Template selecionado para preview:', templateName);
+        console.log('[Debug] Total de variáveis enviadas:', Object.keys(formData).length);
         console.log('[Debug] Dados do formulário:', formData);
+
+        // Log de debug para verificar se as variáveis numeradas estão sendo enviadas corretamente
+        const numVariables = Object.keys(formData).filter(key => /^[a-zA-Z_]+\d+$/.test(key));
+        if (numVariables.length > 0) {
+            console.log('[Debug] Variáveis numeradas:', numVariables);
+            numVariables.forEach(varName => {
+                console.log(`[Debug] - ${varName}: ${formData[varName]}`);
+            });
+        }
+
+        const previewFrame = document.getElementById('previewFrame');
+        if (!previewFrame) {
+            console.error('[Debug] Frame de preview não encontrado!');
+            return;
+        }
+
+        // Exibe mensagem de carregamento no preview
+        previewFrame.srcdoc = '<html><body style="font-family: Arial, sans-serif; text-align: center; padding: 20px;"><h3>Gerando preview...</h3><p>Aguarde enquanto processamos seu template.</p></body></html>';
 
         const response = await fetch(`/api/preview?template=${templateName}`, {
             method: 'POST',
@@ -258,16 +438,33 @@ async function generatePreview() {
 
         if (response.ok) {
             const html = await response.text();
-            const previewFrame = document.getElementById('previewFrame');
+
+            if (!html || html.length === 0) {
+                console.error('[Debug] Resposta vazia do servidor!');
+                previewFrame.srcdoc = '<html><body style="font-family: Arial, sans-serif; text-align: center; color: red; padding: 20px;"><h3>Erro no Preview</h3><p>O servidor retornou uma resposta vazia.</p></body></html>';
+                return;
+            }
+
             previewFrame.srcdoc = html;
-            console.log('[Debug] Preview atualizado com sucesso');
+            console.log('[Debug] Preview atualizado com sucesso, tamanho do HTML:', html.length);
+
+            // Verifica se há variáveis não substituídas
+            const notReplacedVars = html.match(/\{\{\s*[^}]+\s*\}\}/g);
+            if (notReplacedVars && notReplacedVars.length > 0) {
+                console.warn('[Debug] Variáveis não substituídas no preview:', notReplacedVars);
+            }
         } else {
             const errorText = await response.text();
             console.error('[Debug] Erro na resposta do preview:', errorText);
+            previewFrame.srcdoc = `<html><body style="font-family: Arial, sans-serif; text-align: center; color: red; padding: 20px;"><h3>Erro no Preview</h3><p>${errorText}</p></body></html>`;
             alert('Erro ao gerar preview. Verifique o console para mais detalhes.');
         }
     } catch (error) {
         console.error('[Debug] Erro ao gerar preview:', error);
+        const previewFrame = document.getElementById('previewFrame');
+        if (previewFrame) {
+            previewFrame.srcdoc = `<html><body style="font-family: Arial, sans-serif; text-align: center; color: red; padding: 20px;"><h3>Erro no Preview</h3><p>${error.message}</p></body></html>`;
+        }
         alert('Erro ao gerar preview. Verifique o console para mais detalhes.');
     }
 }
@@ -430,16 +627,73 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('codigo').addEventListener('click', toggleView);
     document.getElementById('copiarCodigo').addEventListener('click', copyCode);
 
+    // Adiciona botão de recarregar variáveis (criado dinamicamente)
+    const formContainer = document.getElementById('editorForm');
+    const reloadButton = document.createElement('button');
+    reloadButton.type = 'button';
+    reloadButton.id = 'reloadVariables';
+    reloadButton.className = 'btn btn-secondary reload-button';
+    reloadButton.textContent = 'Recarregar Variáveis';
+    reloadButton.addEventListener('click', function (event) {
+        event.preventDefault();
+        reloadVariables();
+    });
+
+    // Insere o botão no início do formulário
+    if (formContainer.firstChild) {
+        formContainer.insertBefore(reloadButton, formContainer.firstChild);
+    } else {
+        formContainer.appendChild(reloadButton);
+    }
+
     // Se já tiver um template selecionado, carrega suas variáveis
     const selectedTemplate = document.getElementById('templateSelect').value;
     if (selectedTemplate) {
         loadTemplateVariables(selectedTemplate).then(variables => {
             createDynamicFields(variables);
+        }).catch(error => {
+            console.error('[Debug] Erro ao carregar variáveis:', error);
+            const errorMessage = document.createElement('div');
+            errorMessage.className = 'error-message';
+            errorMessage.textContent = 'Erro ao carregar variáveis. Tente recarregar.';
+            formContainer.prepend(errorMessage);
         });
     }
 
     console.log('[Debug] Setup concluído');
 });
+
+// Função para recarregar variáveis manualmente
+async function reloadVariables() {
+    const selectedTemplate = document.getElementById('templateSelect').value;
+    if (!selectedTemplate) {
+        alert('Selecione um template primeiro!');
+        return;
+    }
+
+    console.log('[Debug] Recarregando variáveis para:', selectedTemplate);
+
+    try {
+        // Limpa o cache do navegador para esta requisição
+        const timestamp = new Date().getTime();
+        const variables = await loadTemplateVariables(`${selectedTemplate}?t=${timestamp}`);
+
+        if (variables && variables.length > 0) {
+            createDynamicFields(variables);
+            console.log('[Debug] Variáveis recarregadas com sucesso:', variables);
+            alert('Variáveis recarregadas com sucesso!');
+
+            // Gera o preview imediatamente
+            generatePreview();
+        } else {
+            console.warn('[Debug] Nenhuma variável encontrada após recarga');
+            alert('Nenhuma variável encontrada para este template.');
+        }
+    } catch (error) {
+        console.error('[Debug] Erro ao recarregar variáveis:', error);
+        alert('Erro ao recarregar variáveis. Verifique o console para mais detalhes.');
+    }
+}
 
 // Adiciona listener para erros globais
 window.addEventListener('error', (event) => {

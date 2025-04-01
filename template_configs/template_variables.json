@@ -111,5 +111,33 @@
             ]
         },
         "description": "Template base para emails"
+    },
+    "asdas": {
+        "variables": [
+            "texto",
+            "titulo",
+            "descricao",
+            "texto2",
+            "link_url",
+            "logo_url",
+            "logo_alt",
+            "banner_url",
+            "banner_alt",
+            "",
+            "logo_alt1",
+            "link_url1",
+            "banner_alt1",
+            "link_url2",
+            "banner_url1",
+            "banner_alt2",
+            "link_url3",
+            "link_url4"
+        ],
+        "description": "dasdasd",
+        "nested_variables": {
+            "": [
+                "Subscriber.FirstName"
+            ]
+        }
     }
 }
