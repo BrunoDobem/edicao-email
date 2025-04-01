@@ -116,6 +116,31 @@
             font-size: 1.25rem;
         }
 
+        .header {
+            background-color: #fff;
+            padding: 1.5rem;
+            border-radius: 12px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+
+        .button {
+            display: inline-block;
+            background-color: #3b82f6;
+            color: #fff;
+            padding: 0.75rem 1.5rem;
+            border-radius: 6px;
+            text-decoration: none;
+            font-weight: 500;
+            margin-top: 1rem;
+            transition: background-color 0.2s;
+        }
+
+        .button:hover {
+            background-color: #2563eb;
+        }
+
         @media (max-width: 768px) {
             .container {
                 padding: 1rem;
@@ -142,10 +167,21 @@
         <div class="header">
             <h1>Gerenciador de Templates de Email</h1>
             <p>Gerencie seus templates de email de forma simples e eficiente.</p>
-            <a href="/create" class="button">Criar Novo Template</a>
         </div>
 
         <div class="grid">
+            <div class="card">
+                <h2>Criar Novo Template</h2>
+                <p>Crie um novo template de email do zero. Personalize com suas variáveis e adicione seu design HTML.
+                </p>
+                <div class="actions">
+                    <a href="/create" class="btn btn-primary">
+                        <span class="icon">➕</span>
+                        Criar Template
+                    </a>
+                </div>
+            </div>
+
             <div class="card">
                 <h2>Gerenciar Templates</h2>
                 <p>Visualize, crie e gerencie seus templates de email. Organize-os por categorias e mantenha tudo
