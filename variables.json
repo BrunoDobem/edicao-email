@@ -1,0 +1,10 @@
+{
+    "titulo": "Bem-vindo ao nosso serviço",
+    "nome": "Cliente",
+    "mensagem": "Agradecemos por escolher nossos serviços. Estamos aqui para ajudar!",
+    "botao": {
+        "texto": "Acessar Minha Conta",
+        "url": "https://exemplo.com/conta"
+    },
+    "rodape": "© 2024 Nossa Empresa. Todos os direitos reservados."
+} 

@@ -1,0 +1,42 @@
+{
+  "preview_text": "🛫 Aproveite ofertas especiais para viajar gastando menos!",
+  "logo_url": "https://lp.hurb.com/hubfs/CREATIVE/TESTE%20EMAIL/Logo%20do%20hurb.png",
+  "logo_alt": "Logo Hurb",
+  "imagem_topo_url": "https://blog.hurb.com/wp-content/uploads/2025/03/TOPO_Lugares-onde-o-real-700x394-1.png",
+  "imagem_topo_alt": "Lugares onde o real vale mais",
+  "link_topo": "https://www.hurb.com/br/packages?utm_source=email&utm_medium=listmonk&utm_campaign=semana_do_viajante_real_vale_mais&cmp=737328",
+  "subtitulo": "Semana do Consumidor com ofertas especiais",
+  "titulo_principal": "Semana do Consumidor com ofertas especiais",
+  "destino1": {
+    "titulo": "Pacote de Viagem - Joanesburgo (África do Sul) - 2026",
+    "descricao": "🦁 Aventura selvagem e cultura vibrante te esperam na África do Sul em 2026!",
+    "link": "https://www.hurb.com/br/packages/joanesburgo-passagem-aerea-hospedagem/1417351?utm_source=email&utm_medium=listmonk&utm_campaign=semana_do_viajante_real_vale_mais&cmp=737328",
+    "imagem_url": "https://blog.hurb.com/wp-content/uploads/2025/03/Imagem_-Joanesburgo-310x217-1.png",
+    "imagem_alt": "Joanesburgo"
+  },
+  "destino2": {
+    "titulo": "Pacote de Viagem - Cartagena + San Andrés - Voo + Hotel - 2025 ou 2026",
+    "descricao": "🌴 Areias brancas, mar cristalino e cultura vibrante te esperam no Caribe!",
+    "link": "https://www.hurb.com/br/packages/pacote-de-viagem-cartagena-san-andres-passagem-aerea-hospedagem/1089486?utm_source=email&utm_medium=listmonk&utm_campaign=semana_do_viajante_real_vale_mais&cmp=737328",
+    "imagem_url": "https://blog.hurb.com/wp-content/uploads/2025/03/Imagem_-Cartagena-San-Andres-310x217-1.png",
+    "imagem_alt": "Cartagena"
+  },
+  "destino3": {
+    "imagem_url": "https://blog.hurb.com/wp-content/uploads/2025/03/Imagem_Punta-Cana-All-Inclusive-310x217-1.png",
+    "imagem_alt": "Punta Cana",
+    "titulo": "Pacote de Data Fixa - Punta Cana (All Inclusive) - Voo + Hotel - 2025",
+    "preco": "R$4.297",
+    "dias": "5 diárias",
+    "descricao": "🍹 Sol, mar e conforto total te aguardam em Punta Cana com tudo incluso!",
+    "link": "https://www.hurb.com/br/packages/punta-cana-passagem-aerea-hospedagem/1431272?utm_source=email&utm_medium=listmonk&utm_campaign=semana_do_viajante_real_vale_mais&cmp=737328"
+  },
+  "destino4": {
+    "imagem_url": "https://blog.hurb.com/wp-content/uploads/2025/03/Imagem_Santiago-310x217-1.png",
+    "imagem_alt": "Santiago",
+    "titulo": "Melhor Pacote Santiago - Voo + Hotel - 2025 e 2026",
+    "preco": "R$1.260",
+    "dias": "4 diárias",
+    "descricao": "🍷 Vinícolas, montanhas e cultura vibrante te esperam no coração do Chile!",
+    "link": "https://www.hurb.com/br/packages/pacote-de-viagem-santiago-passagem-aerea-hospedagem/1590891?utm_source=email&utm_medium=listmonk&utm_campaign=semana_do_viajante_real_vale_mais&cmp=737328"
+  }
+}

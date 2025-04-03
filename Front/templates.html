@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gerenciar Templates - Editor de Email</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #f8fafc;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .back-btn {
+            text-decoration: none;
+            color: #64748b;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-weight: 500;
+        }
+
+        .back-btn:hover {
+            color: #1e293b;
+        }
+
+        h1 {
+            color: #1e293b;
+            font-size: 1.875rem;
+        }
+
+        .actions {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border-radius: 6px;
+            font-weight: 500;
+            text-decoration: none;
+            transition: all 0.2s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            border: none;
+            cursor: pointer;
+        }
+
+        .btn-primary {
+            background-color: #3b82f6;
+            color: #fff;
+        }
+
+        .btn-primary:hover {
+            background-color: #2563eb;
+        }
+
+        .btn-secondary {
+            background-color: #f1f5f9;
+            color: #1e293b;
+        }
+
+        .btn-secondary:hover {
+            background-color: #e2e8f0;
+        }
+
+        .templates-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .template-card {
+            background-color: #fff;
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .template-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .template-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .template-name {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: #1e293b;
+        }
+
+        .template-actions {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .template-actions button {
+            padding: 0.5rem;
+            border: none;
+            background: none;
+            cursor: pointer;
+            color: #64748b;
+            transition: color 0.2s ease;
+        }
+
+        .template-actions button:hover {
+            color: #1e293b;
+        }
+
+        .template-preview {
+            background-color: #fff;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            margin: 1rem 0;
+        }
+
+        .template-preview iframe {
+            width: 100%;
+            height: 300px;
+            border: none;
+            background-color: #fff;
+        }
+
+        .template-info {
+            padding: 1rem;
+            background-color: #f8fafc;
+            border-top: 1px solid #e2e8f0;
+            font-size: 0.875rem;
+            color: #64748b;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 1rem;
+            }
+
+            header {
+                flex-direction: column;
+                gap: 1rem;
+                text-align: center;
+            }
+
+            .actions {
+                width: 100%;
+                justify-content: center;
+            }
+
+            .templates-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Modal styles */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+        }
+
+        .modal-content {
+            position: relative;
+            background-color: #fff;
+            margin: 10% auto;
+            padding: 2rem;
+            width: 90%;
+            max-width: 500px;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .modal-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: #1e293b;
+        }
+
+        .close-modal {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #64748b;
+            padding: 0.5rem;
+        }
+
+        .close-modal:hover {
+            color: #1e293b;
+        }
+
+        .modal-body {
+            margin-bottom: 1.5rem;
+        }
+
+        .modal-footer {
+            display: flex;
+            justify-content: flex-end;
+            gap: 1rem;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <header>
+            <div class="header-left">
+                <a href="/" class="back-btn">
+                    <span>←</span>
+                    Voltar
+                </a>
+                <h1>Gerenciar Templates</h1>
+            </div>
+            <div class="actions">
+                <button id="novoTemplate" class="btn btn-primary">
+                    <span>➕</span>
+                    Novo Template
+                </button>
+                <button id="importarTemplate" class="btn btn-secondary">
+                    <span>📁</span>
+                    Importar
+                </button>
+            </div>
+        </header>
+
+        <div class="templates-grid">
+            {% for template in templates %}
+            <div class="template-card">
+                <div class="template-header">
+                    <span class="template-name">{{ template.nome }}</span>
+                    <div class="template-actions">
+                        <button title="Editar">
+                            <span>✏️</span>
+                        </button>
+                        <button title="Duplicar">
+                            <span>📋</span>
+                        </button>
+                        <button title="Excluir">
+                            <span>🗑️</span>
+                        </button>
+                    </div>
+                </div>
+                <div class="template-preview">
+                    <iframe src="{{ template.caminho }}" style="width: 100%; height: 300px; border: none;"></iframe>
+                </div>
+                <div class="template-info">
+                    Arquivo: {{ template.arquivo }}
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <!-- Modal para novo template -->
+    <div id="novoTemplateModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">Novo Template</h2>
+                <button class="close-modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="nomeTemplate">Nome do Template</label>
+                    <input type="text" id="nomeTemplate" placeholder="Digite o nome do template">
+                </div>
+                <div class="form-group">
+                    <label for="templateBase">Template Base</label>
+                    <select id="templateBase">
+                        <option value="base">Base</option>
+                        <option value="template2">Template 2</option>
+                    </select>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" id="cancelarNovo">Cancelar</button>
+                <button class="btn btn-primary" id="criarTemplate">Criar</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal para duplicar template -->
+    <div id="duplicarTemplateModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">Duplicar Template</h2>
+                <button class="close-modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="novoNomeTemplate">Novo Nome</label>
+                    <input type="text" id="novoNomeTemplate" placeholder="Digite o novo nome">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" id="cancelarDuplicar">Cancelar</button>
+                <button class="btn btn-primary" id="duplicarTemplate">Duplicar</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Gerenciamento de modais
+        function abrirModal(modalId) {
+            document.getElementById(modalId).style.display = 'block';
+        }
+
+        function fecharModal(modalId) {
+            document.getElementById(modalId).style.display = 'none';
+        }
+
+        // Fechar modais ao clicar no X ou fora do modal
+        document.querySelectorAll('.close-modal').forEach(button => {
+            button.addEventListener('click', () => {
+                const modal = button.closest('.modal');
+                modal.style.display = 'none';
+            });
+        });
+
+        window.addEventListener('click', (e) => {
+            if (e.target.classList.contains('modal')) {
+                e.target.style.display = 'none';
+            }
+        });
+
+        // Novo template
+        document.getElementById('novoTemplate').addEventListener('click', () => {
+            abrirModal('novoTemplateModal');
+        });
+
+        document.getElementById('cancelarNovo').addEventListener('click', () => {
+            fecharModal('novoTemplateModal');
+        });
+
+        document.getElementById('criarTemplate').addEventListener('click', async () => {
+            const nome = document.getElementById('nomeTemplate').value.trim();
+            const base = document.getElementById('templateBase').value;
+
+            if (!nome) {
+                alert('Por favor, digite um nome para o template');
+                return;
+            }
+
+            try {
+                const response = await fetch(`/api/templates/${nome}`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ base_template: base })
+                });
+
+                if (!response.ok) throw new Error('Erro ao criar template');
+
+                alert('Template criado com sucesso!');
+                window.location.reload();
+            } catch (error) {
+                console.error('Erro:', error);
+                alert('Erro ao criar template');
+            }
+        });
+
+        // Duplicar template
+        let templateParaDuplicar = null;
+
+        document.querySelectorAll('.template-actions button[title="Duplicar"]').forEach(button => {
+            button.addEventListener('click', (e) => {
+                templateParaDuplicar = e.currentTarget.closest('.template-card').querySelector('.template-name').textContent;
+                abrirModal('duplicarTemplateModal');
+            });
+        });
+
+        document.getElementById('cancelarDuplicar').addEventListener('click', () => {
+            fecharModal('duplicarTemplateModal');
+        });
+
+        document.getElementById('duplicarTemplate').addEventListener('click', async () => {
+            const novoNome = document.getElementById('novoNomeTemplate').value.trim();
+
+            if (!novoNome) {
+                alert('Por favor, digite um nome para o novo template');
+                return;
+            }
+
+            try {
+                const response = await fetch(`/api/templates/${templateParaDuplicar}/duplicate`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ novo_nome: novoNome })
+                });
+
+                if (!response.ok) throw new Error('Erro ao duplicar template');
+
+                alert('Template duplicado com sucesso!');
+                window.location.reload();
+            } catch (error) {
+                console.error('Erro:', error);
+                alert('Erro ao duplicar template');
+            }
+        });
+
+        // Excluir template
+        document.querySelectorAll('.template-actions button[title="Excluir"]').forEach(button => {
+            button.addEventListener('click', async (e) => {
+                const templateName = e.currentTarget.closest('.template-card').querySelector('.template-name').textContent;
+
+                if (confirm(`Tem certeza que deseja excluir o template "${templateName}"?`)) {
+                    try {
+                        const response = await fetch(`/api/templates/${templateName}`, {
+                            method: 'DELETE'
+                        });
+
+                        if (!response.ok) throw new Error('Erro ao excluir template');
+
+                        alert('Template excluído com sucesso!');
+                        window.location.reload();
+                    } catch (error) {
+                        console.error('Erro:', error);
+                        alert('Erro ao excluir template');
+                    }
+                }
+            });
+        });
+
+        // Editar template
+        document.querySelectorAll('.template-actions button[title="Editar"]').forEach(button => {
+            button.addEventListener('click', (e) => {
+                const templateName = e.currentTarget.closest('.template-card').querySelector('.template-name').textContent;
+                window.location.href = `/editor?template=${templateName}`;
+            });
+        });
+    </script>
+</body>
+
+</html>
