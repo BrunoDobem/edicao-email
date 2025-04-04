@@ -22,6 +22,7 @@
                 <select id="templateSelect" class="template-select">
                     <option value="base">Template Base</option>
                     <option value="template2">Template 2</option>
+                    <option value="template3">Template 3</option>
                 </select>
                 <button id="salvar">Salvar Alterações</button>
                 <button id="preview">Visualizar Preview</button>
@@ -34,6 +35,9 @@
                 <form id="editorForm">
                     <div class="form-group">
                         <h2>Configurações Gerais</h2>
+                        <label for="titulo">Título da Página</label>
+                        <input type="text" id="titulo" name="titulo">
+
                         <label for="preview_text">Texto de Preview</label>
                         <input type="text" id="preview_text" name="preview_text">
 
@@ -60,6 +64,54 @@
                     </div>
 
                     <div class="form-group">
+                        <h2>Configurações do Template</h2>
+                        <label for="nome">Nome do Cliente</label>
+                        <input type="text" id="nome" name="nome">
+
+                        <label for="mensagem_principal">Mensagem Principal</label>
+                        <textarea id="mensagem_principal" name="mensagem_principal"></textarea>
+
+                        <label for="destaques">Destaques</label>
+                        <textarea id="destaques" name="destaques"></textarea>
+
+                        <label for="banner_url">URL do Banner</label>
+                        <input type="text" id="banner_url" name="banner_url">
+
+                        <label for="banner_image">URL da Imagem do Banner</label>
+                        <input type="text" id="banner_image" name="banner_image">
+
+                        <label for="banner_alt">Texto Alternativo do Banner</label>
+                        <input type="text" id="banner_alt" name="banner_alt">
+
+                        <label for="oferta_url">URL da Oferta</label>
+                        <input type="text" id="oferta_url" name="oferta_url">
+
+                        <label for="oferta_image">URL da Imagem da Oferta</label>
+                        <input type="text" id="oferta_image" name="oferta_image">
+
+                        <label for="oferta_alt">Texto Alternativo da Oferta</label>
+                        <input type="text" id="oferta_alt" name="oferta_alt">
+
+                        <label for="tipo_pacote">Tipo do Pacote</label>
+                        <input type="text" id="tipo_pacote" name="tipo_pacote">
+
+                        <label for="destino">Destino</label>
+                        <input type="text" id="destino" name="destino">
+
+                        <label for="preco_parcelado">Preço Parcelado</label>
+                        <input type="text" id="preco_parcelado" name="preco_parcelado">
+
+                        <label for="preco_pix">Preço no PIX</label>
+                        <input type="text" id="preco_pix" name="preco_pix">
+
+                        <label for="botao_url">URL do Botão</label>
+                        <input type="text" id="botao_url" name="botao_url">
+
+                        <label for="botao_texto">Texto do Botão</label>
+                        <input type="text" id="botao_texto" name="botao_texto">
+                    </div>
+
+                    <div class="form-group">
                         <h2>Destino 1</h2>
                         <label for="destino1.titulo">Título</label>
                         <input type="text" id="destino1.titulo" name="destino1.titulo">
@@ -75,6 +127,12 @@
 
                         <label for="destino1.imagem_alt">Texto Alternativo da Imagem</label>
                         <input type="text" id="destino1.imagem_alt" name="destino1.imagem_alt">
+
+                        <label for="destino1.preco">Preço</label>
+                        <input type="text" id="destino1.preco" name="destino1.preco">
+
+                        <label for="destino1.dias">Dias</label>
+                        <input type="text" id="destino1.dias" name="destino1.dias">
                     </div>
 
                     <div class="form-group">
@@ -93,6 +151,12 @@
 
                         <label for="destino2.imagem_alt">Texto Alternativo da Imagem</label>
                         <input type="text" id="destino2.imagem_alt" name="destino2.imagem_alt">
+
+                        <label for="destino2.preco">Preço</label>
+                        <input type="text" id="destino2.preco" name="destino2.preco">
+
+                        <label for="destino2.dias">Dias</label>
+                        <input type="text" id="destino2.dias" name="destino2.dias">
                     </div>
 
                     <div class="form-group">
